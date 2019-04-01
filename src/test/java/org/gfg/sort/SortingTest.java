@@ -56,6 +56,7 @@ public class SortingTest{
 
     @Test
     public void insertionSortOnRandomArray(){
+        // Note that it took 51.111 sec to sort an array of 100,000 elements
         Integer[] array = new Random().ints(100, 0, 100)
                                       .boxed()
                                       .collect(Collectors.toList())
