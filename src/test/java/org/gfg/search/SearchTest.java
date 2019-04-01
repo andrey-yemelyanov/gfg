@@ -29,4 +29,30 @@ public class SearchTest{
         assertThat(binarySearch(arr, 1), is(0));
         assertThat(binarySearch(arr, -1), is(-1));
     }
+
+    @Test
+    public void findPeakInArrayWithOneElement(){
+        assertThat(findPeak(new int[] {1}), is(0));
+    }
+
+    @Test
+    public void findPeakInStrictlyIncreasingArray(){
+    	assertThat(findPeak(new int[] {1, 2, 3, 4, 5}), is(4));
+    }
+
+    @Test
+    public void findPeakInStrictlyDecreasingArray(){
+    	assertThat(findPeak(new int[] {5, 4}), is(0));
+    	assertThat(findPeak(new int[] {5, 4, 3, 2, 1}), is(0));
+    }
+
+    @Test
+    public void findPeakInArrayWithSeveralLocalPeaks(){	
+    	assertThat(findPeak(new int[] {1, 2, 1, 4, 6, 9, 2}), is(5));
+    }
+
+    @Test
+    public void findPeakInArrayWithAllElementsEqual(){
+    	assertThat(findPeak(new int[] {1, 1, 1, 1}), is(1));
+    }
 }
