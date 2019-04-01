@@ -28,5 +28,9 @@ public class SearchTest{
         assertThat(binarySearch(arr, 3), is(-1));
         assertThat(binarySearch(arr, 1), is(0));
         assertThat(binarySearch(arr, -1), is(-1));
+        
+        assertThat(false ^ false, is(false));
+        assertThat(false ^ true, is(true));
+        assertThat(true ^ true, is(false));
     }
 }

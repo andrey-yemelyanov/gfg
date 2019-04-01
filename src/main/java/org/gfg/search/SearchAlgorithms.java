@@ -8,7 +8,7 @@ package org.gfg.search;
 public class SearchAlgorithms{
 	
 	/**
-	 * <p>Searches a sorted array of {@link Comparable} instances for a specified key.</p>
+	 * <p>Searches a sorted array <tt>arr</tt> of {@link Comparable} instances for a specified <tt>key</tt>.</p>
 	 * <p>The behavior is not specified if the supplied array is not sorted. If there are 
 	 * several instances of the key present in the array, an index of any of the instances is returned.</p>
 	 * 
