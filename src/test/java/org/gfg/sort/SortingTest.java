@@ -56,7 +56,7 @@ public class SortingTest{
 
     @Test
     public void insertionSortOnRandomArray(){
-        // Note that it took 51.111 sec to sort an array of 100,000 elements
+        // Note that it took roughly 19 sec to sort an array of 100,000 elements
         Integer[] array = new Random().ints(100, 0, 100)
                                       .boxed()
                                       .collect(Collectors.toList())
@@ -128,13 +128,11 @@ public class SortingTest{
 
     @Test
     public void mergeSortOnRandomArray(){
-        Integer[] array = new Random().ints(5, 0, 100)
+        Integer[] array = new Random().ints(100000, 0, 100)
                                       .boxed()
                                       .collect(Collectors.toList())
                                       .toArray(new Integer[0]);
         mergeSort(array);
-        assertThat(String.format(
-            "Array must be sorted but was %s\n", Arrays.toString(array)), 
-            isSorted(array), is(true));
+        assertThat(isSorted(array), is(true));
     }
 }
