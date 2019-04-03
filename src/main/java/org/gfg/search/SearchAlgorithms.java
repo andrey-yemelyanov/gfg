@@ -2,7 +2,6 @@ package org.gfg.search;
 
 import static java.lang.Math.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Contains implementation of a number of searching algorithms on collections and arrays.
@@ -80,11 +79,16 @@ public class SearchAlgorithms{
         int from = 0; int to = array.length - 1;
         while(from <= to){
             int mid = from + (to - from) / 2;
-            if(array[mid].compareTo(x) == 0) return mid;
-            if((mid == 0 && array[mid].compareTo(x) > 0) || 
-               (mid > 0 && array[mid - 1].compareTo(x) < 0 && array[mid].compareTo(x) > 0)) return mid;
-            if(array[mid].compareTo(x) > 0) to = mid - 1;
-            else from = mid + 1;
+            // look for the rightmost occurrence
+            if(array[mid].compareTo(x) == 0 && mid < array.length - 1 && array[mid + 1].compareTo(x) == 0){
+                from = mid + 1;
+            }else{
+                if(array[mid].compareTo(x) == 0) return mid;
+                if((mid == 0 && array[mid].compareTo(x) > 0) || 
+                    (mid > 0 && array[mid - 1].compareTo(x) < 0 && array[mid].compareTo(x) > 0)) return mid;
+                if(array[mid].compareTo(x) > 0) to = mid - 1;
+                else from = mid + 1;
+            }
         }
         return -1;
     }
@@ -101,11 +105,16 @@ public class SearchAlgorithms{
         int from = 0; int to = array.length - 1;
         while(from <= to){
             int mid = from + (to - from) / 2;
-            if(array[mid].compareTo(x) == 0) return mid;
-            if((mid == array.length - 1 && array[mid].compareTo(x) < 0) || 
-               (mid < array.length - 1 && array[mid + 1].compareTo(x) > 0 && array[mid].compareTo(x) < 0)) return mid;
-            if(array[mid].compareTo(x) > 0) to = mid - 1;
-            else from = mid + 1;
+            // look for the leftmost occurrence
+            if(array[mid].compareTo(x) == 0 && mid > 0 && array[mid - 1].compareTo(x) == 0){
+                to = mid - 1;
+            }else{
+                if(array[mid].compareTo(x) == 0) return mid;
+                if((mid == array.length - 1 && array[mid].compareTo(x) < 0) || 
+                    (mid < array.length - 1 && array[mid + 1].compareTo(x) > 0 && array[mid].compareTo(x) < 0)) return mid;
+                if(array[mid].compareTo(x) > 0) to = mid - 1;
+                else from = mid + 1;
+            }
         }
         return -1;
     }
@@ -163,5 +172,19 @@ public class SearchAlgorithms{
         while(!pq.isEmpty()) list.add(pq.remove());
         Collections.reverse(list);
         return list;
+    }
+
+    /**
+     * Returns number of occurrences of the specified key in a sorted array.
+     * @param <T> type of array elements
+     * @param arr input array
+     * @param key key
+     * @return number of occurrences of the key in the array
+     */
+    public static <T extends Comparable<T>> int countOccurrences(T[] arr, T key){
+        int lowerBound = floor(arr, key);
+        if(lowerBound < 0 || arr[lowerBound].compareTo(key) != 0) return 0;
+        int upperBound = ceil(arr, key);
+        return upperBound - lowerBound + 1;
     }
 }

@@ -106,8 +106,17 @@ public class SearchTest{
     public void ceilAllArrayElementsAreSame(){
         Integer[] array = new Integer[]{2,2,2,2,2,2};
         assertThat(ceil(array, 3), is(-1));
-        assertThat(ceil(array, 2), is(2));
+        assertThat(ceil(array, 2), is(5));
         assertThat(ceil(array, 0), is(0));
+    }
+
+    @Test
+    public void ceilArraysContainsDuplicates(){
+        Integer[] array = new Integer[]{1, 1, 1, 2, 2, 2, 2, 5, 5, 6};
+        assertThat(ceil(array, 2), is(6));
+        assertThat(ceil(array, 3), is(7));
+        assertThat(ceil(array, 6), is(9));
+        assertThat(ceil(array, 1), is(2));
     }
 
     @Test
@@ -119,6 +128,25 @@ public class SearchTest{
         assertThat(floor(array, 8), is(2));
         assertThat(floor(array, 30), is(6));
         assertThat(floor(array, 15), is(5));
+    }
+
+    @Test
+    public void floorAllArrayElementsAreSame(){
+        Integer[] array = new Integer[]{2,2,2,2,2,2};
+        assertThat(floor(array, 3), is(5));
+        assertThat(floor(array, 2), is(0));
+        assertThat(floor(array, 5), is(5));
+    }
+
+    @Test
+    public void floorArraysContainsDuplicates(){
+        Integer[] array = new Integer[]{1, 1, 1, 2, 2, 2, 2, 5, 5, 6};
+        assertThat(floor(array, 1), is(0));
+        assertThat(floor(array, 2), is(3));
+        assertThat(floor(array, 3), is(6));
+        assertThat(floor(array, 6), is(9));
+        assertThat(floor(array, 10), is(9));
+        assertThat(floor(array, 0), is(-1));
     }
 
     @Test
@@ -181,5 +209,33 @@ public class SearchTest{
     public void findKSmallestArraySizeGreaterThanK(){
         assertThat(findKSmallest(new Integer[]{50, 1, 20, -2, 0}, 3), is(Arrays.asList(-2, 0, 1)));
         assertThat(findKSmallest(new Integer[]{5, 4, 3, 2, 1}, 3), is(Arrays.asList(1, 2, 3)));
+    }
+
+    @Test
+    public void findOccurrencesElementNotPresentInArray(){
+        Integer[] arr = new Integer[]{1,2,2,4,5,6};
+        assertThat(countOccurrences(arr, 7), is(0));
+        assertThat(countOccurrences(arr, -5), is(0));
+        assertThat(countOccurrences(arr, 3), is(0));
+    }
+
+    @Test
+    public void findOccurrencesElementIsUnique(){
+        Integer[] arr = new Integer[]{1,2,3,4,5,6};
+        assertThat(countOccurrences(arr, 3), is(1));
+    }
+
+    @Test
+    public void findOccurrencesAllElementsAreSame(){
+        Integer[] arr = new Integer[]{1,1,1,1,1,1};
+        assertThat(countOccurrences(arr, 1), is(6));
+    }
+
+    @Test
+    public void findOccurrencesElementOccursSeveralTimes(){
+        Integer[] arr = new Integer[]{1,1,1,2,2,2,2,2,3,3,4,5,6};
+        assertThat(countOccurrences(arr, 2), is(5));
+        assertThat(countOccurrences(arr, 5), is(1));
+        assertThat(countOccurrences(arr, 3), is(2));
     }
 }
