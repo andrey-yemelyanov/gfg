@@ -119,4 +119,55 @@ public class SearchTest{
         assertThat(floor(array, 30), is(6));
         assertThat(floor(array, 15), is(5));
     }
+
+    @Test
+    public void medianArraysWithOneElement(){
+        int[] arr1 = new int[]{1};
+        int[] arr2 = new int[]{2};
+        assertThat(median(arr1, arr2), is(1));
+    }
+
+    @Test
+    public void medianArraysWithTwoElements(){
+        int[] arr1 = new int[]{1, 2};
+        int[] arr2 = new int[]{3, 4};
+        assertThat(median(arr1, arr2), is(2));
+
+        arr1 = new int[]{1, 4};
+        arr2 = new int[]{2, 3};
+        assertThat(median(arr1, arr2), is(2));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void medianEmptyArraysThrowsException(){
+        int[] arr1 = new int[]{};
+        int[] arr2 = new int[]{};
+        median(arr1, arr2);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void medianArraysWithDiffLengthsThrowsException(){
+        int[] arr1 = new int[]{1, 2, 3};
+        int[] arr2 = new int[]{1, 2};
+        median(arr1, arr2);
+    }
+
+    @Test
+    public void medianTwoArrays(){
+        int[] arr1 = new int[]{1, 12, 15, 26, 38};
+        int[] arr2 = new int[]{2, 13, 17, 30, 45};
+        assertThat(median(arr1, arr2), is(16));
+
+        /*arr1 = new int[]{1,  3,  7,  9, 10};
+        arr2 = new int[]{5, 11, 12, 15, 16};
+        assertThat(median(arr1, arr2), is(9));
+
+        arr1 = new int[]{1,  3,  7,  9, 12};
+        arr2 = new int[]{5, 10, 11, 12, 15};
+        assertThat(median(arr1, arr2), is(9));
+
+        arr1 = new int[]{1, 2, 3, 4};
+        arr2 = new int[]{5, 6, 7, 8};
+        assertThat(median(arr1, arr2), is(4));*/
+    }
 }

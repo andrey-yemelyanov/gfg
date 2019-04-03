@@ -1,5 +1,9 @@
 package org.gfg.search;
 
+import static java.lang.Math.*;
+
+import java.util.Arrays;
+
 /**
  * Contains implementation of a number of searching algorithms on collections and arrays.
  * @author Andrey Yemelyanov
@@ -92,12 +96,30 @@ public class SearchAlgorithms{
 
     /**
      * Returns a median of two sorted arrays of the same size.
-     * @param <T>
-     * @param arr1
-     * @param arr2
-     * @return
+     * Since the combined size of the two arrays is 2*n, the median will always be integer floor
+     * of the average of the two middle elements in the combined sequence.
+     * If one or both of the arrays are not sorted, the result is not specified.
+     * @param arr1 first input array in sorted order
+     * @param arr2 second input array in sorted order
+     * @return median - floor value of the average between the two middle elements 
      */
-    public static <T extends Comparable<T>> T median(T[] arr1, T[] arr2){
+    public static int median(int[] arr1, int[] arr2){
+        if(arr1.length != arr2.length) throw new IllegalArgumentException("Input arrays are of different lengths.");
+        if(arr1.length == 0) throw new IllegalArgumentException("Empty arrays are not allowed.");
+        if(arr1.length == 1) return (arr1[0] + arr2[0]) / 2;
+        return median(arr1, arr2, 0, arr1.length - 1, 0, arr2.length - 1);
+    }
 
+    private static int median(int[] arr1, int[] arr2, int i, int j, int k, int l){
+        int len1 = j - i + 1;
+        int len2 = l - k + 1;
+        if(len1 == 2) return (max(arr1[i], arr2[k]) + min(arr1[j], arr2[l])) / 2;
+        int mid1 = i + len1 / 2;
+        int mid2 = k + len2 / 2;
+        int m1 = arr1[mid1];
+        int m2 = arr2[mid2];
+        if(m1 == m2) return m1;
+        if(m1 > m2) return median(arr1, arr2, i, mid1, mid2, l);
+        else return median(arr1, arr2, mid1, j, k, mid2);
     }
 }
