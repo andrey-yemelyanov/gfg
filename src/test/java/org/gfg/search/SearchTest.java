@@ -1,6 +1,7 @@
 package org.gfg.search;
 
 import static org.hamcrest.Matchers.*;
+import java.util.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.gfg.search.SearchAlgorithms.*;
 import org.junit.Test;
@@ -158,7 +159,7 @@ public class SearchTest{
         int[] arr2 = new int[]{2, 13, 17, 30, 45};
         assertThat(median(arr1, arr2), is(16));
 
-        /*arr1 = new int[]{1,  3,  7,  9, 10};
+        arr1 = new int[]{1,  3,  7,  9, 10};
         arr2 = new int[]{5, 11, 12, 15, 16};
         assertThat(median(arr1, arr2), is(9));
 
@@ -168,6 +169,17 @@ public class SearchTest{
 
         arr1 = new int[]{1, 2, 3, 4};
         arr2 = new int[]{5, 6, 7, 8};
-        assertThat(median(arr1, arr2), is(4));*/
+        assertThat(median(arr1, arr2), is(4));
+    }
+
+    @Test
+    public void findKSmallestArraySizeNotGreaterThanK(){
+        assertThat(findKSmallest(new Integer[]{50, 1, 20}, 4), is(Arrays.asList(1, 20, 50)));
+    }
+
+    @Test
+    public void findKSmallestArraySizeGreaterThanK(){
+        assertThat(findKSmallest(new Integer[]{50, 1, 20, -2, 0}, 3), is(Arrays.asList(-2, 0, 1)));
+        assertThat(findKSmallest(new Integer[]{5, 4, 3, 2, 1}, 3), is(Arrays.asList(1, 2, 3)));
     }
 }

@@ -1,8 +1,8 @@
 package org.gfg.search;
 
 import static java.lang.Math.*;
-
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Contains implementation of a number of searching algorithms on collections and arrays.
@@ -22,7 +22,23 @@ public class SearchAlgorithms{
 	 * @return an index at which the key is present, or -1 if the key is not found in the array
 	 */
     public static <T extends Comparable<T>> int binarySearch(T[] arr, T key){
-        int from = 0; int to = arr.length - 1;
+        return binarySearch(arr, key, 0, arr.length - 1);
+    }
+
+    /**
+	 * <p>Searches a sorted subarray array in a range from i (inclusive) to j (inclusive) of {@link Comparable} instances for a specified <tt>key</tt>.</p>
+	 * <p>The behavior is not specified if the supplied array is not sorted. If there are 
+     * several instances of the key present in the array, an index of any of the instances is returned.</p>
+	 * 
+	 * @param <T> type of the elements in the array and the key, must be of type {@link Comparable}
+	 * @param arr Sorted array to be searched
+	 * @param key Key to be searched for in the specified array
+     * @param i index where the subarray begins (inclusive)
+     * @param j index where the subarray ends (inclusive)
+	 * @return an index at which the key is present, or -1 if the key is not found in the array
+	 */
+    public static <T extends Comparable<T>> int binarySearch(T[] arr, T key, int i, int j){
+        int from = i; int to = j;
         while(from <= to){
             int mid = from + (to - from) / 2;
             if(arr[mid].compareTo(key) == 0) return mid;
@@ -30,7 +46,7 @@ public class SearchAlgorithms{
             else to = mid - 1;
         }
         return -1;
-    }
+    } 
 
     /**
      * <p>Finds a peak in an array of integers. An array element is a peak if it
@@ -121,5 +137,31 @@ public class SearchAlgorithms{
         if(m1 == m2) return m1;
         if(m1 > m2) return median(arr1, arr2, i, mid1, mid2, l);
         else return median(arr1, arr2, mid1, j, k, mid2);
+    }
+
+    /**
+     * Returns k smallest elements in the supplied array. The array may be sorted or unsorted.
+     * If the size of the array is not greater than k, then all of its elements are returned in sorted order,
+     * with the smallest one first.
+     * @param <T> type of elements, must implement {@link Comparable}
+     * @param arr input array
+     * @param k number of smallest elements to return
+     * @return k smallest elements in the supplied array, sorted in non-descending order
+     */
+    public static <T extends Comparable<T>> List<T> findKSmallest(T[] arr, int k){
+        PriorityQueue<T> pq = new PriorityQueue<>(10, (T t1, T t2) -> t2.compareTo(t1)); // max-heap
+        for(int i = 0; i < arr.length && i < k; i++) pq.add(arr[i]);
+        
+        for(int i = k; i < arr.length; i++){
+            if(arr[i].compareTo(pq.peek()) < 0){
+                pq.remove();
+                pq.add(arr[i]);
+            }
+        }
+
+        List<T> list = new ArrayList<T>();
+        while(!pq.isEmpty()) list.add(pq.remove());
+        Collections.reverse(list);
+        return list;
     }
 }
