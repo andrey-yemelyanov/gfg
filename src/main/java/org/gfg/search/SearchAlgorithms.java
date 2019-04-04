@@ -235,4 +235,28 @@ public class SearchAlgorithms{
                      .map((Pair<T> p) -> p.element)
                      .collect(Collectors.toList());
     }
+
+    /**
+     * Searches three sorted input arrays for common elements - elements that occur in all three arrays.
+     * @param arr1 input array 1 sorted in non-decreasing order
+     * @param arr2 input array 2 sorted in non-decreasing order
+     * @param arr3 input array 3 sorted in non-decreasing order
+     * @return a sorted list of elements common to all three input arrays
+     */
+    public static List<Integer> findCommonElements(int[] arr1, int[] arr2, int[] arr3){
+        List<Integer> common = new ArrayList<>();
+        int i = 0; int j = 0; int k = 0;
+        while(i < arr1.length && j < arr2.length && k < arr3.length){
+            if(arr1[i] == arr2[j] && arr2[j] == arr3[k]){
+                common.add(arr1[i]);
+                i++; j++; k++;
+            }else{
+                int max = max(arr1[i], max(arr2[j], arr3[k]));
+                if(arr1[i] < max) i++;
+                if(arr2[j] < max) j++;
+                if(arr3[k] < max) k++;
+            }
+        }
+        return common;
+    }
 }
