@@ -2,6 +2,7 @@ package org.gfg.search;
 
 import static java.lang.Math.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Contains implementation of a number of searching algorithms on collections and arrays.
@@ -186,5 +187,50 @@ public class SearchAlgorithms{
         if(lowerBound < 0 || arr[lowerBound].compareTo(key) != 0) return 0;
         int upperBound = ceil(arr, key);
         return upperBound - lowerBound + 1;
+    }
+
+    /**
+     * Returns K most frequently occurring elements in an unordered input array.
+     * @param <T> type of {@link Comparable} elements
+     * @param array unordered array of elements
+     * @param k order statistics - how many most frequent elements are to be computed
+     * @return returns K most frequent elements in the input array
+     */
+    public static <T extends Comparable<T>> List<T> kMostFrequent(T[] array, int k){
+        Map<T, Integer> map = new HashMap<>();
+        for(T element : array){
+            map.put(element, map.getOrDefault(element, 0) + 1);
+        }
+
+        class Pair<Type>{
+            public Type element;
+            public int frequency;
+            public Pair(Type element, int frequency){
+                this.element = element;
+                this.frequency = frequency;
+            }
+        }
+
+        // min-heap where element frequency is the key
+        PriorityQueue<Pair<T>> pq = new PriorityQueue<Pair<T>>(
+            10, (Pair<T> p1, Pair<T> p2) -> Integer.compare(p1.frequency, p2.frequency));
+
+        for(T key : map.keySet()){
+            Pair<T> pair = new Pair<>(key, map.get(key));
+            if(pq.size() < k){
+                pq.add(pair);
+            }else if(pair.frequency > pq.peek().frequency){
+                pq.remove();
+                pq.add(pair);
+            }
+        }
+
+        List<Pair<T>> result = new ArrayList<>();
+        while(!pq.isEmpty()) result.add(pq.remove());
+        Collections.reverse(result);
+        
+        return result.stream()
+                     .map((Pair<T> p) -> p.element)
+                     .collect(Collectors.toList());
     }
 }
