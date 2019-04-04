@@ -197,11 +197,6 @@ public class SearchAlgorithms{
      * @return returns K most frequent elements in the input array
      */
     public static <T extends Comparable<T>> List<T> kMostFrequent(T[] array, int k){
-        Map<T, Integer> map = new HashMap<>();
-        for(T element : array){
-            map.put(element, map.getOrDefault(element, 0) + 1);
-        }
-
         class Pair<Type>{
             public Type element;
             public int frequency;
@@ -211,18 +206,25 @@ public class SearchAlgorithms{
             }
         }
 
+        // build frequency table - O(n)
+        Map<T, Integer> map = new HashMap<>();
+        for(T element : array){
+            map.put(element, map.getOrDefault(element, 0) + 1);
+        }
+
         // min-heap where element frequency is the key
         PriorityQueue<Pair<T>> pq = new PriorityQueue<Pair<T>>(
             10, (Pair<T> p1, Pair<T> p2) -> Integer.compare(p1.frequency, p2.frequency));
 
-        for(T key : map.keySet()){
+        // overall complexity: O(nlogk)
+        for(T key : map.keySet()){ // O(map.size())
             Pair<T> pair = new Pair<>(key, map.get(key));
             if(pq.size() < k){
                 pq.add(pair);
             }else if(pair.frequency > pq.peek().frequency){
                 pq.remove();
                 pq.add(pair);
-            }
+            } // O(log(k))
         }
 
         List<Pair<T>> result = new ArrayList<>();
