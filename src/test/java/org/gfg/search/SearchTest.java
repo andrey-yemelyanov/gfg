@@ -321,4 +321,14 @@ public class SearchTest {
         assertThat(kSmallest(grid, 7), is(30));
         assertThat(kSmallest(grid, 16), is(50));
     }
+
+    @Test
+    public void findSingleElementInSortedArray(){
+        assertThat(findSingleElement(new int[]{1,1,3,3,4,5,5,7,7,8,8}), is(4));
+        assertThat(findSingleElement(new int[]{1,3,3,4,4,7,7}), is(0));        
+        assertThat(findSingleElement(new int[]{1,1,2,2,3}), is(4));
+        assertThat(findSingleElement(new int[]{1,2,2}), is(0));
+        assertThat(findSingleElement(new int[]{1,1,2}), is(2));
+        assertThat(findSingleElement(new int[]{1,1,3,3,4,5,5,6,6}), is(4));
+    }
 }

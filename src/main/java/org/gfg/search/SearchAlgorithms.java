@@ -296,4 +296,28 @@ public class SearchAlgorithms{
         // overall complexity T(n, k) = O(n + klogn)
         return minHeap.peek().val;
     }
+
+    /**
+     * Given a sorted array in which all elements appear twice (one after one), 
+     * finds one element that appears only once.
+     * @param arr sorted input array
+     * @return index of the element that occurs only once
+     */
+    public static int findSingleElement(int[] arr){
+        int from = 0; int to = arr.length - 1;
+        while(from <= to){
+            int mid = from + (to - from) / 2;
+            if((mid == 0 || arr[mid - 1] != arr[mid]) && (mid == arr.length - 1 || arr[mid + 1] != arr[mid])){
+                return mid;
+            }
+            if(mid % 2 == 0){
+                if(mid == 0 || arr[mid - 1] != arr[mid]) from = mid + 1;
+                else to = mid - 1;
+            }else{
+                if(arr[mid - 1] != arr[mid]) to = mid - 1;
+                else from = mid + 1;
+            }
+        }
+        return -1;
+    }
 }
