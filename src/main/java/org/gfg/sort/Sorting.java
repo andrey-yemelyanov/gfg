@@ -1,5 +1,7 @@
 package org.gfg.sort;
 
+import org.gfg.*;
+
 public class Sorting{
 
     /**
@@ -13,37 +15,11 @@ public class Sorting{
         while(i < array.length){
             int j = i - 1;
             while(j >= 0 && array[j].compareTo(array[j + 1]) > 0){
-                swap(array, j, j + 1);
+                Util.swap(array, j, j + 1);
                 j--;
             }
             i++;
         }
-    }
-
-    /**
-     * Swaps two elements in the input array.
-     * @param <T> type of input array elements
-     * @param array input array
-     * @param i index of the first element to swap
-     * @param j index of the second element to swap
-     */
-    public static <T> void swap(T[] array, int i, int j){
-        T temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-
-    /**
-     * Checks for array sortedness.
-     * @param <T> type of input array elements, must implement {@link Comparable}
-     * @param array input array
-     * @return true if the input array is sorted in non-decreasing order.
-     */
-    public static <T extends Comparable<T>> boolean isSorted(T[] array){
-        for(int i = 1; i < array.length; i++){
-            if(array[i].compareTo(array[i - 1]) < 0) return false;
-        }
-        return true;
     }
 
     /**
@@ -64,6 +40,7 @@ public class Sorting{
         merge(array, i, mid, j);
     }
 
+    @SuppressWarnings("unchecked")
     private static <T extends Comparable<T>> void merge(T[] arr, int i, int mid, int j){
         Object[] leftArr = new Object[mid - i + 1];
         Object[] rightArr = new Object[j - mid];

@@ -6,6 +6,7 @@ import static org.gfg.sort.Sorting.*;
 import org.junit.Test;
 import java.util.stream.*;
 import java.util.*;
+import org.gfg.*;
 
 public class SortingTest{
     @Test
@@ -62,7 +63,7 @@ public class SortingTest{
                                       .collect(Collectors.toList())
                                       .toArray(new Integer[0]);
         insertionSort(array);
-        assertThat(isSorted(array), is(true));
+        assertThat(Util.isSorted(array), is(true));
     }
 
     @Test
@@ -133,6 +134,6 @@ public class SortingTest{
                                       .collect(Collectors.toList())
                                       .toArray(new Integer[0]);
         mergeSort(array);
-        assertThat(isSorted(array), is(true));
+        assertThat(Util.isSorted(array), is(true));
     }
 }
