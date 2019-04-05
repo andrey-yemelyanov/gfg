@@ -1,15 +1,12 @@
 package org.gfg.search;
 
 import static org.hamcrest.Matchers.*;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.gfg.search.SearchAlgorithms.*;
-
-import org.junit.Rule;
 import org.junit.Test;
 
 public class SearchTest {
@@ -305,5 +302,23 @@ public class SearchTest {
         int[] arr2 = new int[] {6, 7, 20, 80, 100};
         int[] arr3 = new int[] {3, 4, 15, 20, 30, 70, 80, 120};
         assertThat(findCommonElements(arr1, arr2, arr3), is(Arrays.asList(20, 80)));
+    }
+
+    @Test
+    public void kSmallestInSortedGrid(){
+        int[][] grid = new int[][]{
+            {10, 20, 30, 40},
+            {15, 25, 35, 45},
+            {24, 29, 37, 48},
+            {32, 33, 39, 50}
+        };
+        assertThat(kSmallest(grid, 1), is(10));
+        assertThat(kSmallest(grid, 2), is(15));
+        assertThat(kSmallest(grid, 3), is(20));
+        assertThat(kSmallest(grid, 4), is(24));
+        assertThat(kSmallest(grid, 5), is(25));
+        assertThat(kSmallest(grid, 6), is(29));
+        assertThat(kSmallest(grid, 7), is(30));
+        assertThat(kSmallest(grid, 16), is(50));
     }
 }

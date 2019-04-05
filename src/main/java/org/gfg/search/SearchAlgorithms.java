@@ -259,4 +259,41 @@ public class SearchAlgorithms{
         }
         return common;
     }
+
+    /**
+     * Returns k-th smallest element in a row-wise and column-wise sorted grid.
+     * @param grid input grid sorted row- and column-wise
+     * @param k order statistics
+     * @return k-th smallest element
+     */
+    public static int kSmallest(int[][] grid, int k){
+        class Item{
+            public int i;
+            public int j;
+            public int val;
+            public Item(int i, int j, int val){
+                this.i = i;
+                this.j = j;
+                this.val = val;
+            }
+        }
+
+        PriorityQueue<Item> minHeap = new PriorityQueue<>(10,
+            (Item i1, Item i2) -> Integer.compare(i1.val, i2.val));
+        // build minHeap from the first row - note T = O(n) as the row is already sorted
+        for(int j = 0; j < grid.length; j++){
+            minHeap.add(new Item(0, j, grid[0][j]));
+        }
+
+        // T(n, k) = O(klogn)
+        while(k-- > 1){
+            Item item = minHeap.remove();
+            if(item.i < grid.length - 1){
+                minHeap.add(new Item(item.i + 1, item.j, grid[item.i + 1][item.j]));
+            }
+        }
+
+        // overall complexity T(n, k) = O(n + klogn)
+        return minHeap.peek().val;
+    }
 }
