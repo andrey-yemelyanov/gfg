@@ -1,7 +1,10 @@
 package org.gfg;
 
+import java.util.Comparator;
+
 /**
- * Provides implementation of numerous utility functions common to all algorithms and data structures.
+ * Provides implementation of numerous utility functions common to all
+ * algorithms and data structures.
  */
 public class Util{
     
@@ -19,14 +22,15 @@ public class Util{
     }
 
     /**
-     * Checks for array sortedness.
-     * @param <T> type of input array elements, must implement {@link Comparable}
+     * Checks for array sortedness according to a custom comparator.
+     * @param <T> type of input array elements
      * @param array input array
-     * @return true if the input array is sorted in non-decreasing order.
+     * @param comparator comparator that determines element ordering
+     * @return true if the input array is sorted according to the supplied comparator.
      */
-    public static <T extends Comparable<T>> boolean isSorted(T[] array){
+    public static <T> boolean isSorted(T[] array, Comparator<T> comparator){
         for(int i = 1; i < array.length; i++){
-            if(array[i].compareTo(array[i - 1]) < 0) return false;
+            if(comparator.compare(array[i], array[i - 1]) < 0) return false;
         }
         return true;
     }

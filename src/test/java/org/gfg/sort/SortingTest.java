@@ -57,13 +57,13 @@ public class SortingTest{
 
     @Test
     public void insertionSortOnRandomArray(){
-        // Note that it took roughly 19 sec to sort an array of 100,000 elements
+        // Note that it took roughly 260 sec to sort an array of 100,000 elements
         Integer[] array = new Random().ints(100, 0, 100)
                                       .boxed()
                                       .collect(Collectors.toList())
                                       .toArray(new Integer[0]);
         insertionSort(array);
-        assertThat(Util.isSorted(array), is(true));
+        assertThat(Util.isSorted(array, (i1, i2) -> Integer.compare(i1, i2)), is(true));
     }
 
     @Test
@@ -134,6 +134,6 @@ public class SortingTest{
                                       .collect(Collectors.toList())
                                       .toArray(new Integer[0]);
         mergeSort(array);
-        assertThat(Util.isSorted(array), is(true));
+        assertThat(Util.isSorted(array, (i1, i2) -> Integer.compare(i1, i2)), is(true));
     }
 }
