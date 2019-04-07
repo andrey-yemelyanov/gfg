@@ -114,7 +114,11 @@ public class HeapTest {
 
     @Test
     public void heapsort(){
-        Integer[] array = new Random().ints(N, 0, 100)
+        Integer[] array = new Integer[]{5,9,9,2,1,4,9,5};
+        Heap.sort(array, (i1, i2) -> Integer.compare(i2, i1));
+        assertThat(array, is(new Integer[]{1,2,4,5,5,9,9,9}));
+
+        array = new Random().ints(N, 0, 100)
                                       .boxed()
                                       .collect(Collectors.toList())
                                       .toArray(new Integer[0]);
