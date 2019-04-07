@@ -119,7 +119,7 @@ public class HeapTest {
                                       .collect(Collectors.toList())
                                       .toArray(new Integer[0]);
         assertThat(Util.isSorted(array, (i1, i2) -> Integer.compare(i1, i2)), is(false));
-        Heap.sort(array, (i1, i2) -> Integer.compare(i2, i1)); // build max heap
+        Heap.sort(array, (i1, i2) -> Integer.compare(i2, i1)); // sort using max heap
         assertThat(Util.isSorted(array, (i1, i2) -> Integer.compare(i1, i2)), is(true));
     }
 }
