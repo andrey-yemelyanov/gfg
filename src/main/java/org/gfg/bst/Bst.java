@@ -49,6 +49,11 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
             return newNode;
         } 
 
+        if(root.value.compareTo(newNode.value) == 0){
+            root.value = newNode.value;
+            return root;
+        }
+
         if (root.value.compareTo(newNode.value) > 0) {
             root.left = add(root.left, newNode);
         } else {
