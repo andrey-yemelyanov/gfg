@@ -4,6 +4,8 @@ import static java.lang.Math.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.gfg.heap.Heap;
+
 /**
  * Contains implementation of a number of searching algorithms on collections and arrays.
  * @author Andrey Yemelyanov
@@ -278,18 +280,17 @@ public class SearchAlgorithms{
             }
         }
 
-        PriorityQueue<Item> minHeap = new PriorityQueue<>(10,
-            (Item i1, Item i2) -> Integer.compare(i1.val, i2.val));
+        Heap<Item> minHeap = new Heap<>((i1, i2) -> Integer.compare(i1.val, i2.val));
         // build minHeap from the first row - note T = O(n) as the row is already sorted
         for(int j = 0; j < grid.length; j++){
-            minHeap.add(new Item(0, j, grid[0][j]));
+            minHeap.insert(new Item(0, j, grid[0][j]));
         }
 
         // T(n, k) = O(klogn)
         while(k-- > 1){
             Item item = minHeap.remove();
             if(item.i < grid.length - 1){
-                minHeap.add(new Item(item.i + 1, item.j, grid[item.i + 1][item.j]));
+                minHeap.insert(new Item(item.i + 1, item.j, grid[item.i + 1][item.j]));
             }
         }
 
