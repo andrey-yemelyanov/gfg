@@ -1,5 +1,7 @@
 package org.gfg;
 
+import java.util.Iterator;
+
 /**
  * Represents a set abstraction - a collection of distinct items.
  * @param <T> type of elements stored in the set
@@ -27,4 +29,16 @@ public interface Set<T>{
      * @return true if the item is present in the set
      */
     public boolean contains(T item);
+
+    /**
+     * Removes a supplied item from this set. If the item is not present in the set,
+     * this operation has no effect.
+     * @param item item to delete from the set
+     */
+    public void remove(T item);
+
+    /**
+     * Returns an iterator over elements in this set.
+     */
+    public Iterator<T> iterator();
 }
