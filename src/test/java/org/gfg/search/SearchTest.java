@@ -331,4 +331,23 @@ public class SearchTest {
         assertThat(findSingleElement(new int[]{1,1,2}), is(2));
         assertThat(findSingleElement(new int[]{1,1,3,3,4,5,5,6,6}), is(4));
     }
+
+    @Test
+    public void testNearestSmallerOnLeft(){
+        final int INF = Integer.MIN_VALUE;
+        assertThat(nearestSmallerOnLeft(new int[]{1,6,4,10,2,5}), 
+            is(new int[]{INF, 1, 1, 4, 1, 2}));
+        assertThat(nearestSmallerOnLeft(new int[]{1,3,0,2,5}), 
+            is(new int[]{INF, 1, INF, 0, 2}));
+        assertThat(nearestSmallerOnLeft(new int[]{5,4,3,2,1}), 
+            is(new int[]{INF, INF, INF, INF, INF}));
+        assertThat(nearestSmallerOnLeft(new int[]{1,2,3,4,5}), 
+            is(new int[]{INF, 1, 2, 3, 4}));
+    }
+
+    @Test
+    public void testFindPartition(){
+        assertThat(findPartition(new int[]{5,1,4,3,6,8,10,7,9}), is(4));
+        assertThat(findPartition(new int[]{5,1,4,4}), is(-1));
+    }
 }

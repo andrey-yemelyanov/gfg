@@ -44,7 +44,7 @@ public interface Set<T> extends Iterable<T>{
     public Iterator<T> iterator();
 
     /**
-     * Copies elements in this set to a list.
+     * Copies elements in this set to a list. Order of elements is determined by the iterator.
      * @return a list consisting of the elements in the set
      */
     public List<T> toList();

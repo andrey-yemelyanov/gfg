@@ -321,4 +321,49 @@ public class SearchAlgorithms{
         }
         return -1;
     }
+
+    /**
+     * Finds the nearest smaller numbers on left side in an array for each element.
+     * @param arr input array
+     * @return returns an array where array[i] contains the 
+     * nearest smaller element to the left of element at input array[i]
+     */
+    public static int[] nearestSmallerOnLeft(int[] arr){
+        final int INF = Integer.MIN_VALUE;
+        if(arr == null) return null;
+        int[] smaller = new int[arr.length];
+        Stack<Integer> s = new Stack<Integer>();
+        for(int i = 0; i < arr.length; i++){
+            while(!s.isEmpty() && s.peek() >= arr[i]) s.pop();
+            if(!s.isEmpty()) smaller[i] = s.peek();
+            else smaller[i] = INF;
+            s.push(arr[i]);
+        }
+        return smaller;
+    }
+
+    /**
+     * Given an array, finds an element before which all elements 
+     * are smaller than it, and after which all are greater than it. 
+     * @param arr input array
+     * @return index of the element if there is such an element, otherwise return -1
+     */
+    public static int findPartition(int[] arr){
+        int[] maxArr = new int[arr.length];
+        int max = Integer.MIN_VALUE;
+        for(int i = 0; i < arr.length; i++){
+            maxArr[i] = Math.max(max, arr[i]);
+        }
+        int[] minArr = new int[arr.length];
+        int min = Integer.MAX_VALUE;
+        for(int i = arr.length - 1; i >= 0; i--){
+            minArr[i] = Math.min(min, arr[i]);
+        }
+        for(int i = 1; i < arr.length - 1; i++){
+            if(arr[i] > maxArr[i - 1] && arr[i] < minArr[i + 1]){
+                return i;
+            }
+        }
+        return -1;
+    }
 }
