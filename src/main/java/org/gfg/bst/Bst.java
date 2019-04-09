@@ -96,10 +96,6 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
 
     @Override
     public boolean contains(T item) {
-        return contains(root, item);
-    }
-
-    private boolean contains(BstNode root, T item) {
         return search(root, item) != null;
     }
 
