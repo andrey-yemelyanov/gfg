@@ -1,6 +1,6 @@
 package org.gfg.bst;
 
-import java.util.Iterator;
+import java.util.*;
 import org.gfg.Set;
 import org.gfg.SortedSet;
 
@@ -25,6 +25,34 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
         }
     }
 
+    private class InorderBstIterator implements Iterator<T>{
+        private Stack<BstNode> stack;
+        public InorderBstIterator(){
+            stack = new Stack<BstNode>();
+            BstNode node = root;
+            while(node != null){
+                stack.push(node);
+                node = node.left;
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        @Override
+        public T next() {
+            BstNode topNode = stack.pop();
+            BstNode node = topNode.right;
+            while(node != null){
+                stack.push(node);
+                node = node.left;
+            }
+            return topNode.value;
+        }
+    }
+
     private BstNode root;
     private int size;
 
@@ -40,12 +68,15 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
 
     @Override
     public void add(T item) {
+        nodeAdded = false;
         root = add(root, new BstNode(item));
-        size++;
+        if(nodeAdded) size++;
     }
 
+    private boolean nodeAdded;
     private BstNode add(BstNode root, BstNode newNode) {
         if (root == null){
+            nodeAdded = true;
             return newNode;
         } 
 
@@ -69,10 +100,14 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
     }
 
     private boolean contains(BstNode root, T item) {
-        if (root == null) return false;
-        if (root.value.compareTo(item) == 0) return true;
-        if (root.value.compareTo(item) > 0) return contains(root.left, item);
-        return contains(root.right, item);
+        return search(root, item) != null;
+    }
+
+    private BstNode search(BstNode root, T key){
+        if (root == null) return null;
+        if (root.value.compareTo(key) == 0) return root;
+        if (root.value.compareTo(key) > 0) return search(root.left, key);
+        return search(root.right, key);
     }
 
     /**
@@ -85,12 +120,31 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new InorderBstIterator();
     }
 
     @Override
     public void remove(T item) {
+        nodeDeleted = false;
+        root = delete(root, item);
+        if(nodeDeleted) size--;
+    }
 
+    private boolean nodeDeleted;
+    private BstNode delete(BstNode root, T key){
+        if(root == null) return null;
+        if(root.value.compareTo(key) > 0) root.left = delete(root.left, key);
+        else if(root.value.compareTo(key) < 0) root.right = delete(root.right, key);
+        else{ // key to be deleted found
+            nodeDeleted = true;
+            if(root.left == null) return root.right;
+            if(root.right == null) return root.left;
+            // replace node value with the value of inorder successor
+            root.value = minNode(root.right).value;
+            // delete inorder successor in the right subtree
+            root.right = delete(root.right, root.value);
+        }
+        return root;
     }
 
     @Override
@@ -115,12 +169,28 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
 
     @Override
     public T min() {
-        return null;
+        return minNode(root).value;
     }
 
     @Override
     public T max() {
-        return null;
+        return maxNode(root).value;
     }
 
+    private BstNode minNode(BstNode root){
+        if(root.left == null) return root;
+        return minNode(root.left);
+    }
+
+    private BstNode maxNode(BstNode root){
+        if(root.right == null) return root;
+        return maxNode(root.right);
+    }
+
+    @Override
+    public List<T> toList() {
+        List<T> list = new ArrayList<>();
+        iterator().forEachRemaining(list::add);
+        return list;
+    }
 }

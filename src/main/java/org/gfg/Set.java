@@ -1,12 +1,12 @@
 package org.gfg;
 
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Represents a set abstraction - a collection of distinct items.
  * @param <T> type of elements stored in the set
  */
-public interface Set<T>{
+public interface Set<T> extends Iterable<T>{
     /**
      * Returns a number of items contained in this set.
      */
@@ -38,7 +38,14 @@ public interface Set<T>{
     public void remove(T item);
 
     /**
-     * Returns an iterator over elements in this set.
+     * Returns an iterator over elements in this set in arbitrary order.
      */
+    @Override
     public Iterator<T> iterator();
+
+    /**
+     * Copies elements in this set to a list.
+     * @return a list consisting of the elements in the set
+     */
+    public List<T> toList();
 }

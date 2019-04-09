@@ -1,6 +1,12 @@
 package org.gfg;
 
-public interface SortedSet<T extends Comparable<T>> extends Set<T>{
+import java.util.Iterator;
+
+/**
+ * Represents a set that keeps its elements in sorted order. This allows for efficient 
+ * ordering-dependent lookup operations.
+ */
+public interface SortedSet<T extends Comparable<T>> extends Set<T> {
     /**
      * Returns the least element in this set that is strictly greater than the given key.
      * If no such element is present, null is returned.
@@ -38,4 +44,10 @@ public interface SortedSet<T extends Comparable<T>> extends Set<T>{
      * Returns the greatest key in this set.
      */
     public T max();
+
+    /**
+     * Returns an iterator over elements in this set in sorted order.
+     */
+    @Override
+    public Iterator<T> iterator();
 }
