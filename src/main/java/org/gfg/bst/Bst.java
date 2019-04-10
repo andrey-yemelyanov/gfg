@@ -1,11 +1,10 @@
 package org.gfg.bst;
 
 import java.util.*;
-import org.gfg.Set;
 import org.gfg.SortedSet;
 
 /**
- * Implements {@link Set} interface using a binary search tree. Note that this
+ * Implements {@link SortedSet} interface using a binary search tree. Note that this
  * implementation makes no guarantees about the balance of the tree. E.g.
  * inserting elements in sorted order will result in a degenerate binary search
  * tree - a linked list essentially. Use {@link AvlTree} instead if you need
@@ -109,9 +108,15 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
     /**
      * Returns the height of this binary search tree - the longest distance from the
      * root to some leaf.
+     * @return height of this binary search tree
      */
     public int height() {
-        return 0;
+        return height(root);
+    }
+
+    private int height(BstNode root){
+        if(root == null) return 0;
+        return Math.max(height(root.left), height(root.right)) + 1;
     }
 
     @Override
@@ -145,22 +150,70 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
 
     @Override
     public T successor(T key) {
+        BstNode successorNode = successor(root, null, key);
+        if(successorNode != null) return successorNode.value;
         return null;
     }
 
-    @Override
-    public T predecessor(T key) {
-        return null;
+    private BstNode successor(BstNode root, BstNode inorderParent, T key){
+        if(root == null) return inorderParent;
+        BstNode successorNode = null;
+        if(root.value.compareTo(key) == 0) successorNode = minNode(root.right);
+        else if(root.value.compareTo(key) > 0) successorNode = successor(root.left, root, key);
+        else successorNode = successor(root.right, inorderParent, key);
+        if(successorNode == null) successorNode = inorderParent;
+        return successorNode;
     }
 
     @Override
     public T ceil(T key) {
+        BstNode ceilNode = ceil(root, null, key);
+        if(ceilNode != null) return ceilNode.value;
         return null;
+    }
+
+    private BstNode ceil(BstNode root, BstNode inorderParent, T key){
+        if(root == null) return inorderParent;
+        if(root.value.compareTo(key) == 0) return root;
+        BstNode ceilNode = null;
+        if(root.value.compareTo(key) > 0) ceilNode = ceil(root.left, root, key);
+        else ceilNode = ceil(root.right, inorderParent, key);
+        if(ceilNode == null) ceilNode = inorderParent;
+        return ceilNode;
+    }
+
+    @Override
+    public T predecessor(T key) {
+        BstNode predecessorNode = predecessor(root, null, key);
+        if(predecessorNode != null) return predecessorNode.value;
+        return null;
+    }
+
+    private BstNode predecessor(BstNode root, BstNode inorderParent, T key){
+        if(root == null) return inorderParent;
+        BstNode predecessorNode = null;
+        if(root.value.compareTo(key) == 0) predecessorNode = maxNode(root.left);
+        else if(root.value.compareTo(key) > 0) predecessorNode = predecessor(root.left, inorderParent, key);
+        else predecessorNode = predecessor(root.right, root, key);
+        if(predecessorNode == null) predecessorNode = inorderParent;
+        return predecessorNode;
     }
 
     @Override
     public T floor(T key) {
+        BstNode floorNode = floor(root, null, key);
+        if(floorNode != null) return floorNode.value;
         return null;
+    }
+
+    private BstNode floor(BstNode root, BstNode inorderParent, T key){
+        if(root == null) return inorderParent;
+        if(root.value.compareTo(key) == 0) return root;
+        BstNode floorNode = null;
+        if(root.value.compareTo(key) > 0) floorNode = floor(root.left, inorderParent, key);
+        else floorNode = floor(root.right, root, key);
+        if(floorNode == null) floorNode = inorderParent;
+        return floorNode;
     }
 
     @Override
@@ -174,12 +227,12 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
     }
 
     private BstNode minNode(BstNode root){
-        if(root.left == null) return root;
+        if(root == null || root.left == null) return root;
         return minNode(root.left);
     }
 
     private BstNode maxNode(BstNode root){
-        if(root.right == null) return root;
+        if(root == null || root.right == null) return root;
         return maxNode(root.right);
     }
 

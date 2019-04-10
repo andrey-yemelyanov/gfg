@@ -9,11 +9,13 @@ import java.util.*;
 public interface Set<T> extends Iterable<T>{
     /**
      * Returns a number of items contained in this set.
+     * @return size of this set
      */
     public int size();
 
     /**
      * Returns true if this set is empty.
+     * @return {@code true} if this set contains no elements 
      */
     public boolean isEmpty();
 
@@ -39,6 +41,7 @@ public interface Set<T> extends Iterable<T>{
 
     /**
      * Returns an iterator over elements in this set in arbitrary order.
+     * @return iterator supplying elements in arbitrary order
      */
     @Override
     public Iterator<T> iterator();

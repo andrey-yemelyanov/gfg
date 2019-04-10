@@ -17,6 +17,7 @@ public class Heap<T>{
 
     /**
      * Returns number of elements stored in this heap.
+     * @return size of this heap
      */
     public int size(){
         return size;
@@ -24,6 +25,7 @@ public class Heap<T>{
 
     /**
      * Returns true if this heap is empty.
+     * @return {@code true} if this heap contains no elements
      */
     public boolean isEmpty(){
         return size() > 0;
@@ -47,6 +49,7 @@ public class Heap<T>{
 
     /**
      * Inserts a new element into this heap.
+     * @param element new element to insert into this heap
      */
     public void insert(T element){
         if(size == heapArray.length){
@@ -59,6 +62,7 @@ public class Heap<T>{
 
     /**
      * Removes and returns the value at the top of the heap.
+     * @return element at the top of the heap
      */
     public T remove(){
         T top = heapArray[0];
@@ -86,6 +90,7 @@ public class Heap<T>{
 
     /**
      * Returns but does not remove the value at the top of the heap.
+     * @return element at the top of the heap
      */
     public T peek(){
         return heapArray[0];

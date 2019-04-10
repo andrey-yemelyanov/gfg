@@ -10,7 +10,7 @@ import java.util.*;
 
 public class BstTest{
 
-    private Set<Integer> buildBst(){
+    private SortedSet<Integer> buildBst(){
         /*
             Build BST
 
@@ -22,7 +22,7 @@ public class BstTest{
                      /   \    /
                     4     7  13
         */
-        Set<Integer> set = new Bst<>();
+        SortedSet<Integer> set = new Bst<>();
         set.add(8);
         set.add(3);
         set.add(10);
@@ -33,6 +33,79 @@ public class BstTest{
         set.add(14);
         set.add(13);
         return set;
+    }
+
+    @Test
+    public void bstSuccessor(){
+        SortedSet<Integer> set = buildBst();
+        assertThat(set.successor(-1), is(1));
+        assertThat(set.successor(1), is(3));
+        assertThat(set.successor(7), is(8));
+        assertThat(set.successor(13), is(14));
+        assertThat(set.successor(6), is(7));
+        assertThat(set.successor(3), is(4));
+        assertThat(set.successor(14), is(nullValue()));
+        assertThat(set.successor(20), is(nullValue()));
+        assertThat(set.successor(8), is(10));
+        assertThat(set.successor(10), is(13));
+        assertThat(set.successor(4), is(6));
+        assertThat(set.successor(5), is(6));
+        assertThat(set.successor(9), is(10));
+        assertThat(set.successor(11), is(13));
+    }
+
+    @Test
+    public void bstCeil(){
+        SortedSet<Integer> set = buildBst();
+        assertThat(set.ceil(1), is(1));
+        assertThat(set.ceil(7), is(7));
+        assertThat(set.ceil(13), is(13));
+        assertThat(set.ceil(6), is(6));
+        assertThat(set.ceil(3), is(3));
+        assertThat(set.ceil(14), is(14));
+        assertThat(set.ceil(20), is(nullValue()));
+        assertThat(set.ceil(8), is(8));
+        assertThat(set.ceil(10), is(10));
+        assertThat(set.ceil(4), is(4));
+        assertThat(set.ceil(0), is(1));
+        assertThat(set.ceil(-1), is(1));
+        assertThat(set.ceil(2), is(3));
+        assertThat(set.ceil(5), is(6));
+        assertThat(set.ceil(9), is(10));
+        assertThat(set.ceil(12), is(13));
+        assertThat(set.ceil(11), is(13));
+    }
+
+    @Test
+    public void bstPredecessor(){
+        SortedSet<Integer> set = buildBst();
+        assertThat(set.predecessor(1), is(nullValue()));
+        assertThat(set.predecessor(0), is(nullValue()));
+        assertThat(set.predecessor(2), is(1));
+        assertThat(set.predecessor(3), is(1));
+        assertThat(set.predecessor(5), is(4));
+        assertThat(set.predecessor(6), is(4));
+        assertThat(set.predecessor(8), is(7));
+        assertThat(set.predecessor(50), is(14));
+        assertThat(set.predecessor(13), is(10));
+        assertThat(set.predecessor(14), is(13));
+        assertThat(set.predecessor(9), is(8));
+    }
+
+    @Test
+    public void bstFloor(){
+        SortedSet<Integer> set = buildBst();
+        assertThat(set.floor(1), is(1));
+        assertThat(set.floor(0), is(nullValue()));
+        assertThat(set.floor(2), is(1));
+        assertThat(set.floor(3), is(3));
+        assertThat(set.floor(5), is(4));
+        assertThat(set.floor(6), is(6));
+        assertThat(set.floor(8), is(8));
+        assertThat(set.floor(50), is(14));
+        assertThat(set.floor(13), is(13));
+        assertThat(set.floor(14), is(14));
+        assertThat(set.floor(9), is(8));
     }
 
     @Test
@@ -151,5 +224,23 @@ public class BstTest{
                     .forEach(set::add);
         assertThat(Util.isSorted(set.toList().toArray(new Integer[0]), 
             (i1, i2) -> Integer.compare(i1, i2)), is(true));
+    }
+
+    @Test
+    public void bstHeight(){
+        Bst<Integer> bst = new Bst<>();
+        assertThat(bst.height(), is(0));
+        bst.add(1);
+        assertThat(bst.height(), is(1));
+        bst.add(2);
+        assertThat(bst.height(), is(2));
+        bst.add(3);
+        assertThat(bst.height(), is(3));
+        bst.add(4);
+        assertThat(bst.height(), is(4));
+        bst.add(5);
+        assertThat(bst.height(), is(5));
+
+        assertThat(((Bst<Integer>)buildBst()).height(), is(4));
     }
 }
