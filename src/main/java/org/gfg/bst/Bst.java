@@ -14,7 +14,7 @@ import org.gfg.SortedSet;
  */
 public class Bst<T extends Comparable<T>> implements SortedSet<T> {
 
-    private class BstNode {
+    protected class BstNode {
         public T value;
         public BstNode left;
         public BstNode right;
@@ -67,30 +67,41 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
 
     @Override
     public void add(T item) {
-        nodeAdded = false;
-        root = add(root, new BstNode(item));
-        if(nodeAdded) size++;
+        add(new BstNode(item));
     }
 
-    private boolean nodeAdded;
-    private BstNode add(BstNode root, BstNode newNode) {
-        if (root == null){
-            nodeAdded = true;
-            return newNode;
-        } 
-
-        if(root.value.compareTo(newNode.value) == 0){
-            root.value = newNode.value;
-            return root;
+    protected void add(BstNode newNode) {
+        if(root == null){
+            root = newNode;
+            size++;
+            return;
         }
 
-        if (root.value.compareTo(newNode.value) > 0) {
-            root.left = add(root.left, newNode);
-        } else {
-            root.right = add(root.right, newNode);
+        BstNode node = root;
+        while(true){
+            if(node.value.compareTo(newNode.value) == 0){
+                node.value = newNode.value;
+                return;
+            }
+
+            if (node.value.compareTo(newNode.value) > 0) {
+                if(node.left == null){
+                    node.left = newNode;
+                    size++;
+                    return;
+                }else{
+                    node = node.left;
+                }
+            }else{
+                if(node.right == null){
+                    node.right = newNode;
+                    size++;
+                    return;
+                }else{
+                    node = node.right;
+                }
+            }
         }
-        
-        return root;
     }
 
     @Override
@@ -128,7 +139,9 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
     public void remove(T item) {
         nodeDeleted = false;
         root = delete(root, item);
-        if(nodeDeleted) size--;
+        if(nodeDeleted) {
+            size--;
+        }
     }
 
     private boolean nodeDeleted;

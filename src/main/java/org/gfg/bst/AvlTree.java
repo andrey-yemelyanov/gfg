@@ -9,23 +9,9 @@ package org.gfg.bst;
 public class AvlTree<T extends Comparable<T>> extends Bst<T> {
 
     @Override
-    public int size() {
-        return 0;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
-
-    @Override
     public void add(T item) {
-
-    }
-
-    @Override
-    public boolean contains(T item) {
-        return false;
+        add(new BstNode(item));
+        // rebalance
     }
 
 }
