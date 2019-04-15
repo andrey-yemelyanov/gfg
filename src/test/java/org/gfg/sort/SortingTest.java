@@ -136,4 +136,23 @@ public class SortingTest{
         mergeSort(array);
         assertThat(Util.isSorted(array, (i1, i2) -> Integer.compare(i1, i2)), is(true));
     }
+
+    @Test
+    public void sortByFrequencyTest(){
+        Integer[] arr = new Integer[]{2,5,2,8,5,6,8,8};
+        sortByFrequency(arr);
+        assertThat(arr, is(new Integer[]{8,8,8,2,2,5,5,6}));
+
+        arr = new Integer[]{5,2,5,2,8,5,6,8,8};
+        sortByFrequency(arr);
+        assertThat(arr, is(new Integer[]{5,5,5,8,8,8,2,2,6}));
+
+        arr = new Integer[]{4,1,2};
+        sortByFrequency(arr);
+        assertThat(arr, is(new Integer[]{4,1,2}));
+
+        arr = new Integer[]{2,1,2,1};
+        sortByFrequency(arr);
+        assertThat(arr, is(new Integer[]{2,2,1,1}));
+    }
 }

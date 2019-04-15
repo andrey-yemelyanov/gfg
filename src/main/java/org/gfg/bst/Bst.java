@@ -71,9 +71,9 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
     }
 
     protected void add(BstNode newNode) {
+        size++;
         if(root == null){
             root = newNode;
-            size++;
             return;
         }
 
@@ -81,13 +81,13 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
         while(true){
             if(node.value.compareTo(newNode.value) == 0){
                 node.value = newNode.value;
+                size--;
                 return;
             }
 
             if (node.value.compareTo(newNode.value) > 0) {
                 if(node.left == null){
                     node.left = newNode;
-                    size++;
                     return;
                 }else{
                     node = node.left;
@@ -95,7 +95,6 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
             }else{
                 if(node.right == null){
                     node.right = newNode;
-                    size++;
                     return;
                 }else{
                     node = node.right;

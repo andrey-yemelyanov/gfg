@@ -1,5 +1,8 @@
 package org.gfg.sort;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.gfg.*;
 
 public class Sorting{
@@ -56,5 +59,51 @@ public class Sorting{
         }
         while(l < leftArr.length) arr[k++] = (T) leftArr[l++];
         while(r < rightArr.length) arr[k++] = (T) rightArr[r++];
+    }
+
+    /**
+     * Sorts an input array by the frequency of its elements.
+     * Elements that have highest frequency appear first.
+     * Elements with the same frequency appear in the same order 
+     * they appeared in the input array.
+     * @param <T> type of elements in the input array
+     * @param arr input array
+     */
+    public static <T extends Comparable<T>> void sortByFrequency(T[] arr){
+        class Item{
+            public T value;
+            public int freq;
+            public int index;
+
+            public Item(T value, int freq, int index){
+                this.value = value;
+                this.index = index;
+                this.freq = freq;
+            }
+        }
+
+        // build frequency table
+        Map<T, Item> map = new HashMap<>();
+        for(int i = 0; i < arr.length; i++){
+            if(!map.containsKey(arr[i])){
+                map.put(arr[i], new Item(arr[i], 0, i));
+            }
+            map.put(arr[i], new Item(arr[i], map.get(arr[i]).freq + 1, map.get(arr[i]).index));
+        }
+
+        List<Item> list = map.values()
+                             .stream()
+                             .sorted((i1, i2) -> {
+                                if(Integer.compare(i2.freq, i1.freq) != 0) return Integer.compare(i2.freq, i1.freq);
+                                return Integer.compare(i1.index, i2.index);
+                             })
+                             .collect(Collectors.toList());
+
+        int i = 0;
+        for(Item item : list){
+            for(int j = 0; j < item.freq; j++){
+                arr[i++] = item.value;
+            }
+        }
     }
 }
