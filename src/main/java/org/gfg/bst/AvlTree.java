@@ -76,11 +76,47 @@ public class AvlTree<T extends Comparable<T>> extends Bst<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void add(T item) {
-        add(new BstNode(item));
-        // rebalance
-        
+        root = insert(new AvlNode(item), (AvlTree<T>.AvlNode) root);
     }
 
-    
+    @SuppressWarnings("unchecked")
+    private AvlNode insert(AvlNode newNode, AvlNode root){
+        if(root == null) {
+            size++;
+            return newNode;
+        }
+        if(root.value.compareTo(newNode.value) > 0){
+            root.left = insert(newNode, (AvlTree<T>.AvlNode) root.left);
+        }else if(root.value.compareTo(newNode.value) < 0){
+            root.right = insert(newNode, (AvlTree<T>.AvlNode) root.right);
+        }else if(root.value.compareTo(newNode.value) == 0) return root;
+
+        updateHeight(root);
+        int bf = balanceFactor(root);
+
+        if(bf > 1){ // left/left or left/right case
+            if(root.left.value.compareTo(newNode.value) > 0){ // left/left case
+                return rotateRight(root);
+            }else{ // left/right case
+                root.left = rotateLeft((AvlTree<T>.AvlNode) root.left);
+                return rotateRight(root);
+            }
+        }else if(bf < -1){ // right/right or right/left case
+            if(root.right.value.compareTo(newNode.value) < 0){ // right/right case
+                return rotateLeft(root);
+            }else{ // right/left case
+                root.right = rotateRight((AvlTree<T>.AvlNode) root.right);
+                return rotateLeft(root);
+            }
+        }
+
+        return root;
+    }
+
+    @Override
+    public void remove(T item) {
+        
+    } 
 }
