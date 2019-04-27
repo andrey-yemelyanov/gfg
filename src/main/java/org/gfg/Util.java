@@ -1,6 +1,7 @@
 package org.gfg;
 
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * Provides implementation of numerous utility functions common to all
@@ -33,5 +34,16 @@ public class Util{
             if(comparator.compare(array[i], array[i - 1]) < 0) return false;
         }
         return true;
+    }
+
+    /**
+     * Converts a list into an array of the same type.
+     * @param <T> types of elements in the list and resulting array
+     * @param list input list
+     * @return an array consisting of list elements in the same order
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T[] toArray(List<T> list){
+        return list.toArray((T[]) new Object[0]);
     }
 }
