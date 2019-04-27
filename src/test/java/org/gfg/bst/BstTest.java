@@ -229,18 +229,18 @@ public class BstTest{
     @Test
     public void bstHeight(){
         Bst<Integer> bst = new Bst<>();
-        assertThat(bst.height(), is(0));
+        assertThat(bst.height(), is(-1));
         bst.add(1);
-        assertThat(bst.height(), is(1));
+        assertThat(bst.height(), is(0));
         bst.add(2);
-        assertThat(bst.height(), is(2));
+        assertThat(bst.height(), is(1));
         bst.add(3);
-        assertThat(bst.height(), is(3));
+        assertThat(bst.height(), is(2));
         bst.add(4);
-        assertThat(bst.height(), is(4));
+        assertThat(bst.height(), is(3));
         bst.add(5);
-        assertThat(bst.height(), is(5));
+        assertThat(bst.height(), is(4));
 
-        assertThat(((Bst<Integer>)buildBst()).height(), is(4));
+        assertThat(((Bst<Integer>)buildBst()).height(), is(3));
     }
 }

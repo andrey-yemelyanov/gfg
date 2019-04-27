@@ -52,8 +52,8 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
         }
     }
 
-    private BstNode root;
-    private int size;
+    protected BstNode root;
+    protected int size;
 
     @Override
     public int size() {
@@ -124,8 +124,8 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
         return height(root);
     }
 
-    private int height(BstNode root){
-        if(root == null) return 0;
+    protected int height(BstNode root){
+        if(root == null) return -1;
         return Math.max(height(root.left), height(root.right)) + 1;
     }
 

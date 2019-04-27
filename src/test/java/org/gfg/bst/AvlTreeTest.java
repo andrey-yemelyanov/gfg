@@ -9,11 +9,32 @@ public class AvlTreeTest{
     private final int nNodes = 1000;
 
     @Test
-    public void avlTreeHeight(){
+    public void avlTreeAdd(){
         Bst<Integer> bst = new AvlTree<>();
+        final int nNodes = 1000;
+        int expectedHeight = (int) (Math.log(nNodes) / Math.log(2));
+
         for(int i = 0; i < nNodes; i++) bst.add(i);
-        assertThat(bst.height(), is((int)Math.ceil(
-            Math.log(nNodes) / Math.log(2))));
+        assertThat(bst.size(), is(nNodes));
+        assertThat(bst.height(), is(expectedHeight));
+        
+        for(int i = 0; i < nNodes; i++) bst.add(i);
+        assertThat(bst.size(), is(nNodes));
+        assertThat(bst.height(), is(expectedHeight));
+    }
+
+    @Test
+    public void avlTreeRemove(){
+        Bst<Integer> bst = new AvlTree<>();
+        final int nNodes = 1000;
+        final int nNodesToRemove = 100;
+        
+        for(int i = 0; i < nNodes; i++) bst.add(i);
+        assertThat(bst.size(), is(nNodes));
+        
+        for(int i = 0; i < nNodesToRemove; i++) bst.remove(i);
+        assertThat(bst.size(), is(nNodes - nNodesToRemove));
+        assertThat(bst.height(), is((int) (Math.log(nNodes - nNodesToRemove) / Math.log(2))));
     }
 
     @Test
