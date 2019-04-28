@@ -67,40 +67,17 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
 
     @Override
     public void add(T item) {
-        add(new BstNode(item));
+        root = add(item, root);
     }
 
-    protected void add(BstNode newNode) {
-        size++;
-        if(root == null){
-            root = newNode;
-            return;
+    protected BstNode add(T key, BstNode root) {
+        if(root == null) {
+            size++;
+            return new BstNode(key);
         }
-
-        BstNode node = root;
-        while(true){
-            if(node.value.compareTo(newNode.value) == 0){
-                node.value = newNode.value;
-                size--;
-                return;
-            }
-
-            if (node.value.compareTo(newNode.value) > 0) {
-                if(node.left == null){
-                    node.left = newNode;
-                    return;
-                }else{
-                    node = node.left;
-                }
-            }else{
-                if(node.right == null){
-                    node.right = newNode;
-                    return;
-                }else{
-                    node = node.right;
-                }
-            }
-        }
+        if(root.value.compareTo(key) > 0) root.left = add(key, root.left);
+        else if(root.value.compareTo(key) < 0) root.right = add(key, root.right);
+        return root;
     }
 
     @Override
@@ -143,8 +120,8 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
         }
     }
 
-    private boolean nodeDeleted;
-    private BstNode delete(BstNode root, T key){
+    protected boolean nodeDeleted;
+    protected BstNode delete(BstNode root, T key){
         if(root == null) return null;
         if(root.value.compareTo(key) > 0) root.left = delete(root.left, key);
         else if(root.value.compareTo(key) < 0) root.right = delete(root.right, key);
@@ -238,7 +215,7 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
         return maxNode(root).value;
     }
 
-    private BstNode minNode(BstNode root){
+    protected BstNode minNode(BstNode root){
         if(root == null || root.left == null) return root;
         return minNode(root.left);
     }
@@ -253,5 +230,33 @@ public class Bst<T extends Comparable<T>> implements SortedSet<T> {
         List<T> list = new ArrayList<>();
         iterator().forEachRemaining(list::add);
         return list;
+    }
+
+    /**
+     * Checks for balance in this binary search tree. A binary tree is balanced
+     * if for each node the absolute difference between the height of its left subtree 
+     * and its right subtree is no larger than 1.
+     * @return true if this binary search tree is balanced
+     */
+    public boolean isBalanced(){
+        return isBalanced(root).isBalanced;
+    }
+
+    private class BalanceResponse{
+        public int height;
+        public boolean isBalanced;
+        public BalanceResponse(int height, boolean isBalanced){
+            this.height = height;
+            this.isBalanced = isBalanced;
+        }
+    }
+    private BalanceResponse isBalanced(BstNode root){
+        if(root == null) return new BalanceResponse(-1, true);
+        BalanceResponse left = isBalanced(root.left);
+        BalanceResponse right = isBalanced(root.right);
+        if(!left.isBalanced) return left;
+        if(!right.isBalanced) return right;
+        boolean isBalanced = Math.abs(left.height - right.height) <= 1;
+        return new BalanceResponse(Math.max(left.height, right.height) + 1, isBalanced);
     }
 }

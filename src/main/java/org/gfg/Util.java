@@ -37,6 +37,20 @@ public class Util{
     }
 
     /**
+     * Checks for list sortedness according to a custom comparator.
+     * @param <T> type of input array elements
+     * @param list input list
+     * @param comparator comparator that determines element ordering
+     * @return true if the input list is sorted according to the supplied comparator.
+     */
+    public static <T> boolean isSorted(List<T> list, Comparator<T> comparator){
+        for(int i = 1; i < list.size(); i++){
+            if(comparator.compare(list.get(i), list.get(i - 1)) < 0) return false;
+        }
+        return true;
+    }
+
+    /**
      * Converts a list into an array of the same type.
      * @param <T> types of elements in the list and resulting array
      * @param list input list
