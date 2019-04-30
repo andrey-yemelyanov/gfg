@@ -44,4 +44,34 @@ public class BitUtilTest{
         assertThat(isPowerOf4(32), is(false));
         assertThat(isPowerOf4(64), is(true));
     }
+
+    @Test
+    public void toIntTest(){
+        assertThat(toInt("0"), is(0));
+        assertThat(toInt("1"), is(1));
+        assertThat(toInt("11111111111111111111111111111111"), is(-1));
+        assertThat(toInt("10101001"), is(169));
+    }
+
+    @Test
+    public void toBinTest(){
+        assertThat(toBin(0),  is("00000000000000000000000000000000"));
+        assertThat(toBin(1),  is("00000000000000000000000000000001"));
+        assertThat(toBin(169),is("00000000000000000000000010101001"));
+        assertThat(toBin(-1), is("11111111111111111111111111111111"));
+        assertThat(toBin(128),is("00000000000000000000000010000000"));
+        assertThat(toBin(-2), is("11111111111111111111111111111110"));
+    }
+
+    @Test
+    public void addTest(){
+        assertThat(add(toBin(Integer.MAX_VALUE), toBin(1)), is("10000000000000000000000000000000"));
+        assertThat(toInt(add(toBin(-5), toBin(5))), is(0));
+        assertThat(toInt(add(toBin(-5), toBin(15))), is(10));
+        assertThat(toInt(add(toBin(-5), toBin(-17))), is(-22));
+        assertThat(toInt(add(toBin(-15), toBin(5))), is(-10));
+        assertThat(toInt(add(toBin(5), toBin(5))), is(10));
+        assertThat(toInt(add(toBin(Integer.MAX_VALUE), toBin(1))), is(Integer.MIN_VALUE));
+        assertThat(toInt(add(toBin(25), toBin(11))), is(36));
+    }
 }
