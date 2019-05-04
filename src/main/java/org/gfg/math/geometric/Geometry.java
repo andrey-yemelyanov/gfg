@@ -22,21 +22,21 @@ public class Geometry{
      * @return <0 if counter-clockwise, 0 if collinear, >0 if clockwise
      */
     private static int orientation(Point p1, Point p2, Point p3){
-        int result = Math.abs(p2.y - p1.y) * Math.abs(p3.x - p2.x) 
-                   - Math.abs(p3.y - p2.y) * Math.abs(p2.x - p1.x);
+        int result = (p2.y - p1.y) * (p3.x - p2.x) 
+                   - (p3.y - p2.y) * (p2.x - p1.x);
         if(result < 0) return -1;
         if(result > 0) return 1;
         return 0;
     }
 
     private static boolean yProjectionsIntersect(Point p1, Point q1, Point p2, Point q2){
-        return Math.max(q1.y, p1.y) >= Math.min(p2.y, q2.y) 
-            || Math.max(q2.y, p2.y) >= Math.min(p1.y, q1.y);
+        return (p2.y >= p1.y && p2.y <= q1.y) || (q2.y >= p1.y && q2.y <= q1.y)
+            || (p1.y >= p2.y && p1.y <= q2.y) || (q1.y >= p2.y && q1.y <= q2.y);
     }
 
     private static boolean xProjectionsIntersect(Point p1, Point q1, Point p2, Point q2){
-        return Math.max(q1.x, p1.x) >= Math.min(p2.x, q2.x) 
-            || Math.max(q2.x, p2.x) >= Math.min(p1.x, q1.x);
+        return (p2.x >= p1.x && p2.x <= q1.x) || (q2.x >= p1.x && q2.x <= q1.x)
+            || (p1.x >= p2.x && p1.x <= q2.x) || (q1.x >= p2.x && q1.x <= q2.x);
     }
 
     /**
