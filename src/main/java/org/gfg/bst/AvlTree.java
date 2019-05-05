@@ -86,7 +86,11 @@ public class AvlTree<T extends Comparable<T>> extends Bst<T> {
             root.left = add(key, (AvlNode) root.left);
         }else if(root.value.compareTo(key) < 0){
             root.right = add(key, (AvlNode) root.right);
-        }else if(root.value.compareTo(key) == 0) return (AvlNode) root;
+        }else if(root.value.compareTo(key) == 0) {
+            // overwrite key value
+            root.value = key;
+            return (AvlNode) root;
+        }
 
         updateHeight((AvlNode) root);
         int bf = balanceFactor((AvlNode) root);
