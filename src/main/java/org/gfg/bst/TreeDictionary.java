@@ -32,10 +32,11 @@ public class TreeDictionary<K extends Comparable<K>, V> implements Dictionary<K,
 
     @Override
     public V delete(K key) {
-        KeyValuePair pair = new KeyValuePair(key, null);
-        if(!tree.contains(pair)){
+        if(!containsKey(key)){
             throw new IllegalArgumentException(String.format("Key '%s' does not exist in the dictionary.", key));
         }
+
+        KeyValuePair pair = new KeyValuePair(key, null);
         V value = tree.ceil(pair).value;
         tree.remove(pair);
         return value;
@@ -48,11 +49,10 @@ public class TreeDictionary<K extends Comparable<K>, V> implements Dictionary<K,
 
     @Override
     public V get(K key) {
-        KeyValuePair pair = new KeyValuePair(key, null);
-        if(!tree.contains(pair)){
+        if(!containsKey(key)){
             throw new IllegalArgumentException(String.format("Key '%s' does not exist in the dictionary.", key));
         }
-        return tree.ceil(pair).value;
+        return tree.ceil(new KeyValuePair(key, null)).value;
     }
 
     @Override
