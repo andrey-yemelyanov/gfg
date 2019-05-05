@@ -58,14 +58,14 @@ public class AvlTreeTest{
     public void avlTreeRemoveRandom(){
         Bst<Integer> bst = new AvlTree<>();
         
-        final int nNodes = 1000;
+        final int nNodes = 100;
         int expectedHeight = (int)(Math.log(nNodes) / Math.log(2));
         IntStream.range(0, nNodes).forEach(bst::add);
         assertThat(bst.size(), is(nNodes));
         assertThat(bst.height(), is(expectedHeight));
         assertThat(bst.isBalanced(), is(true));
 
-        Set<Integer> nodesToRemove = new Random().ints(300, 0, nNodes)
+        Set<Integer> nodesToRemove = new Random().ints(30, 0, nNodes)
                                                  .boxed()
                                                  .collect(Collectors.toSet());
         assertThat(nodesToRemove.stream().allMatch(bst::contains), is(true));
