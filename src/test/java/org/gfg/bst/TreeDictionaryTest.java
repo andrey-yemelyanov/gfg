@@ -42,7 +42,7 @@ public class TreeDictionaryTest{
             assertThat(squares.get(i), is(i * i));
         }
 
-        for(int i = 1; i < MAX; i += 2) squares.delete(i);
+        for(int i = 1; i < MAX; i += 2) assertThat(squares.delete(i), is(i * i));
         for(int i = 0; i < MAX; i++){
             if((i & 1) == 0) assertThat(squares.get(i), is(i * i));
             else assertThat(squares.containsKey(i), is(false));
