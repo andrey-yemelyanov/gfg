@@ -31,6 +31,8 @@ public class HashDictionary<K, V> implements Dictionary<K, V>{
     private int n; // number of keys currently stored in the hash table
     private int m = 1; // initial size of the hash table
     private List<LinkedList<KeyValuePair>> hashTable;
+    
+    private final double maxLoadFactor = 0.75;
 
     private double loadFactor(){
         return (double) n / m;
@@ -87,7 +89,7 @@ public class HashDictionary<K, V> implements Dictionary<K, V>{
 
     @Override
     public void add(K key, V value) {
-        if(loadFactor() > 0.75){
+        if(loadFactor() > maxLoadFactor){
             doubleHashTable();
         }
 
