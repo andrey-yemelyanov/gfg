@@ -33,6 +33,7 @@ public class HashDictionary<K, V> implements Dictionary<K, V>{
     private List<LinkedList<KeyValuePair>> hashTable;
     
     private final double maxLoadFactor = 0.75;
+    private final double minLoadFactor = 0.25;
 
     private double loadFactor(){
         return (double) n / m;
@@ -44,6 +45,15 @@ public class HashDictionary<K, V> implements Dictionary<K, V>{
 
     private void doubleHashTable(){
         m *= 2;
+        resizeHashTable();
+    }
+
+    private void shrinkHashTable(){
+        m /= 2;
+        resizeHashTable();
+    }
+
+    private void resizeHashTable(){
         List<LinkedList<KeyValuePair>> newHashTable = initHashTable(m);
         for(LinkedList<KeyValuePair> bucket : hashTable){
             for(KeyValuePair keyValuePair : bucket){
@@ -84,6 +94,11 @@ public class HashDictionary<K, V> implements Dictionary<K, V>{
         KeyValuePair keyValuePair = findKeyValuePair(hashTable.get(hash), key);
         hashTable.get(hash).remove(keyValuePair);
         n--;
+
+        if(loadFactor() < minLoadFactor){
+            shrinkHashTable();
+        }
+
         return keyValuePair.value;
     }
 
