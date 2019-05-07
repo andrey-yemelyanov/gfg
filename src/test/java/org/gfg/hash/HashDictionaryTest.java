@@ -40,19 +40,19 @@ public class HashDictionaryTest{
     }
 
     @Test
-    public void testSquares(){
+    public void testBigData(){
         Dictionary<Integer, Integer> squares = new HashDictionary<>();
-        final int MAX = 10000;
-        for(int i = 0; i < MAX; i++) squares.add(i, i * i);
+        final int MAX = 1000000;
+        for(int i = 0; i < MAX; i++) squares.add(i, -i);
 
         assertThat(squares.size(), is(MAX));
         for(int i = 0; i < MAX; i++){
-            assertThat(squares.get(i), is(i * i));
+            assertThat(squares.get(i), is(-i));
         }
 
-        for(int i = 1; i < MAX; i += 2) assertThat(squares.delete(i), is(i * i));
+        for(int i = 1; i < MAX; i += 2) assertThat(squares.delete(i), is(-i));
         for(int i = 0; i < MAX; i++){
-            if((i & 1) == 0) assertThat(squares.get(i), is(i * i));
+            if((i & 1) == 0) assertThat(squares.get(i), is(-i));
             else assertThat(squares.containsKey(i), is(false));
         }
     }
