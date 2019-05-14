@@ -27,4 +27,16 @@ public class DnaSequenceIteratorTest {
         }
         assertThat(length, is(2499950));
     }
+
+    @Test
+    public void readLargeFileCharByChar() throws IOException {
+        URL url = this.getClass().getResource("/dnamatching/fdog0.fa");
+        DnaSequenceIterator sequence = new DnaSequenceIterator(url.getFile());
+        int length = 0;
+        while(sequence.hasNext()){
+            length++;
+            sequence.next();
+        }
+        assertThat(length, is(7499950));
+    }
 }
