@@ -1,7 +1,6 @@
 package org.gfg.math.bitalg;
 
 import static org.junit.Assert.assertThat;
-import java.util.*;
 import static org.hamcrest.Matchers.*;
 import org.junit.Test;
 import static org.gfg.math.bitalg.BitUtil.*;
