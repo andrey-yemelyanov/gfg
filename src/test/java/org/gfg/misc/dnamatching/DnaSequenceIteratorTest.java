@@ -39,4 +39,58 @@ public class DnaSequenceIteratorTest {
         }
         assertThat(length, is(7499950));
     }
+
+    @Test
+    public void readSubsequenceEqualToFileLen() throws IOException {
+        URL url = this.getClass().getResource("/dnamatching/trivial.fa");
+        DnaSubsequenceIterator subsequence = new DnaSubsequenceIterator(url.getFile(), 100);
+        StringBuilder sb = new StringBuilder();
+        while(subsequence.hasNext()) sb.append(subsequence.next());
+        assertThat(sb.toString(), is("NNNNNNNNNNNNNNNNNAATTCTGAGAAACTTCTTTGTGAGGGTTGGATTCATTTCACACATTTGAACATTTCTTTGATTGAAGATTTGGAAACAGTCTT"));
+    }
+
+    @Test
+    public void readSubsequenceGreaterThanFileLen() throws IOException {
+        URL url = this.getClass().getResource("/dnamatching/trivial.fa");
+        DnaSubsequenceIterator subsequence = new DnaSubsequenceIterator(url.getFile(), 200);
+        StringBuilder sb = new StringBuilder();
+        while(subsequence.hasNext()) sb.append(subsequence.next());
+        assertThat(sb.toString(), is("NNNNNNNNNNNNNNNNNAATTCTGAGAAACTTCTTTGTGAGGGTTGGATTCATTTCACACATTTGAACATTTCTTTGATTGAAGATTTGGAAACAGTCTT"));
+    }
+
+    @Test
+    public void readAllSubsequences() throws IOException {
+        URL url = this.getClass().getResource("/dnamatching/trivial.fa");
+        DnaSubsequenceIterator subsequence = new DnaSubsequenceIterator(url.getFile(), 95);
+        StringBuilder sb = new StringBuilder();
+        while(subsequence.hasNext()) sb.append(subsequence.next());
+        assertThat(sb.toString(), is(
+            "NNNNNNNNNNNNNNNNNAATTCTGAGAAACTTCTTTGTGAGGGTTGGATTCATTTCACACATTTGAACATTTCTTTGATTGAAGATTTGGAAACA"+
+            "NNNNNNNNNNNNNNNNAATTCTGAGAAACTTCTTTGTGAGGGTTGGATTCATTTCACACATTTGAACATTTCTTTGATTGAAGATTTGGAAACAG"+
+            "NNNNNNNNNNNNNNNAATTCTGAGAAACTTCTTTGTGAGGGTTGGATTCATTTCACACATTTGAACATTTCTTTGATTGAAGATTTGGAAACAGT"+
+            "NNNNNNNNNNNNNNAATTCTGAGAAACTTCTTTGTGAGGGTTGGATTCATTTCACACATTTGAACATTTCTTTGATTGAAGATTTGGAAACAGTC"+
+            "NNNNNNNNNNNNNAATTCTGAGAAACTTCTTTGTGAGGGTTGGATTCATTTCACACATTTGAACATTTCTTTGATTGAAGATTTGGAAACAGTCT"+
+            "NNNNNNNNNNNNAATTCTGAGAAACTTCTTTGTGAGGGTTGGATTCATTTCACACATTTGAACATTTCTTTGATTGAAGATTTGGAAACAGTCTT"
+        ));
+    }
+
+    @Test
+    public void readOneSubsequence() throws IOException {
+        URL url = this.getClass().getResource("/dnamatching/trivial.fa");
+        DnaSubsequenceIterator subsequence = new DnaSubsequenceIterator(url.getFile(), 95);
+        subsequence.hasNext();
+        assertThat(subsequence.next(), is("NNNNNNNNNNNNNNNNNAATTCTGAGAAACTTCTTTGTGAGGGTTGGATTCATTTCACACATTTGAACATTTCTTTGATTGAAGATTTGGAAACA"));
+    }
+
+    @Test
+    public void readAllSubsequencesFromALargeFile() throws IOException {
+        URL url = this.getClass().getResource("/dnamatching/fdog0.fa");
+        DnaSubsequenceIterator subsequence = new DnaSubsequenceIterator(url.getFile(), 50);
+        int count = 0;
+        while(subsequence.hasNext()){
+            count++;
+            subsequence.next();
+        }
+        assertThat(count, is(7499901));
+    }
 }
