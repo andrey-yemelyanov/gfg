@@ -14,7 +14,7 @@ public class SubmatchIterator implements Iterator<Submatch> {
     private DnaSubsequenceHashIterator A;
     private DnaSubsequenceHashIterator B;
     // maps subsequence hash to a list of offsets where this subsequence occurs
-    private Dictionary<Integer, List<Integer>> dictA;
+    private Dictionary<Integer, List<Integer>> dictB;
 
     /**
      * Initializes a new instance of {@link SubmatchIterator}.
@@ -27,15 +27,14 @@ public class SubmatchIterator implements Iterator<Submatch> {
         B = new DnaSubsequenceHashIterator(fastaFile2, k);
 
         // build subsequence table for A
-        dictA = new HashDictionary<>();
-        while(A.hasNext()){
-            DnaSubsequence s = A.next();
-            if(!dictA.containsKey(s.hashCode())){
-                dictA.add(s.hashCode(), new ArrayList<>());
+        dictB = new HashDictionary<>();
+        while(B.hasNext()){
+            DnaSubsequence s = B.next();
+            if(!dictB.containsKey(s.hashCode())){
+                dictB.add(s.hashCode(), new ArrayList<>());
             }
-            dictA.get(s.hashCode()).add(s.offset());
+            dictB.get(s.hashCode()).add(s.offset());
         }
-        int a = 5;
     }
 
     @Override

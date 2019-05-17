@@ -7,7 +7,7 @@ import java.util.*;
  * An iterator that returns all nucleotide subsequences of length k stored in the given FASTA
  * file.
  */
-public class DnaSubsequenceIterator implements Iterator<StringBuilder> {
+public class DnaSubsequenceIterator implements Iterator<String> {
 
     private DnaSequenceIterator sequence;
     private int k;
@@ -43,7 +43,7 @@ public class DnaSubsequenceIterator implements Iterator<StringBuilder> {
     }
 
     @Override
-    public StringBuilder next() {
-        return currentSubSeq;
+    public String next() {
+        return currentSubSeq.toString();
     }
 }

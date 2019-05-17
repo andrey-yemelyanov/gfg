@@ -10,10 +10,10 @@ import java.util.*;
 public class RollingHashTest {
     @Test
     public void rollingHashForSubsequences() {
-        RollingHash rh1 = new RollingHash(new StringBuilder("CTAGC"));
-        RollingHash rh2 = new RollingHash(new StringBuilder("TAGCG"));
-        RollingHash rh3 = new RollingHash(new StringBuilder("AGCGT"));
-        RollingHash rh4 = new RollingHash(new StringBuilder("GCGTC"));
+        RollingHash rh1 = new RollingHash("CTAGC");
+        RollingHash rh2 = new RollingHash("TAGCG");
+        RollingHash rh3 = new RollingHash("AGCGT");
+        RollingHash rh4 = new RollingHash("GCGTC");
         assertThat(rh1.currentHash(), is(not(rh2.currentHash())));
         assertThat(rh2.currentHash(), is(not(rh3.currentHash())));
         assertThat(rh1.currentHash(), is(not(rh3.currentHash())));

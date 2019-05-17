@@ -26,7 +26,7 @@ public class DnaSubsequenceHashIterator implements Iterator<DnaSubsequence> {
     @Override
     public boolean hasNext() {
         if(!subsequenceIterator.hasNext()) return false;
-        StringBuilder subsequence = subsequenceIterator.next();
+        String subsequence = subsequenceIterator.next();
         
         if(currentSubsequence == null){
             rollingHash = new RollingHash(subsequence);
