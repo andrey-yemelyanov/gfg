@@ -4,13 +4,14 @@ import java.util.*;
 import java.io.IOException;
 
 /**
- * An iterator that returns DNA subsequences of length k along with their corresponding hash codes.
+ * An iterator that returns DNA subsequences of length k along with their corresponding hash codes and offsets.
  */
 public class DnaSubsequenceHashIterator implements Iterator<DnaSubsequence> {
 
     private DnaSubsequenceIterator subsequenceIterator;
     private DnaSubsequence currentSubsequence;
     private RollingHash rollingHash;
+    private int offset;
 
     /**
      * Initializes a new instance of {@code DnaSubsequenceHashIterator}.
@@ -25,7 +26,7 @@ public class DnaSubsequenceHashIterator implements Iterator<DnaSubsequence> {
     @Override
     public boolean hasNext() {
         if(!subsequenceIterator.hasNext()) return false;
-        String subsequence = subsequenceIterator.next();
+        StringBuilder subsequence = subsequenceIterator.next();
         
         if(currentSubsequence == null){
             rollingHash = new RollingHash(subsequence);
@@ -33,7 +34,7 @@ public class DnaSubsequenceHashIterator implements Iterator<DnaSubsequence> {
             rollingHash.slide(subsequence.charAt(subsequence.length() - 1));
         }
 
-        currentSubsequence = new DnaSubsequence(subsequence, rollingHash.currentHash());
+        currentSubsequence = new DnaSubsequence(rollingHash.currentHash(), offset++);
         return true;
     }
 

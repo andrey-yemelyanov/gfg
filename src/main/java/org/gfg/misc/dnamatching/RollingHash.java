@@ -14,7 +14,7 @@ public class RollingHash{
      * Initializes a new instance of {@link RollingHash}.
      * @param sequence initial string sequence for which hash is computed
      */
-    public RollingHash(String sequence){
+    public RollingHash(StringBuilder sequence){
         sb = new StringBuilder(sequence);
         int windowSize = sb.length();
         powerBase = (int) Math.pow(BASE, windowSize - 1);
