@@ -32,12 +32,15 @@ public class RollingHashTest {
 
         assertThat(list.size(), is(3));
 
+        assertThat(list.get(0).subsequence(), is("ABC"));
         assertThat(list.get(0).hashCode(), is(3714));
         assertThat(list.get(0).offset(), is(0));
 
+        assertThat(list.get(1).subsequence(), is("BCD"));
         assertThat(list.get(1).hashCode(), is(3771));
         assertThat(list.get(1).offset(), is(1));
 
+        assertThat(list.get(2).subsequence(), is("CDE"));
         assertThat(list.get(2).hashCode(), is(3828));
         assertThat(list.get(2).offset(), is(2));
     }

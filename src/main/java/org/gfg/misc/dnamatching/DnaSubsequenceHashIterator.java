@@ -34,7 +34,7 @@ public class DnaSubsequenceHashIterator implements Iterator<DnaSubsequence> {
             rollingHash.slide(subsequence.charAt(subsequence.length() - 1));
         }
 
-        currentSubsequence = new DnaSubsequence(rollingHash.currentHash(), offset++);
+        currentSubsequence = new DnaSubsequence(subsequence, rollingHash.currentHash(), offset++);
         return true;
     }
 
