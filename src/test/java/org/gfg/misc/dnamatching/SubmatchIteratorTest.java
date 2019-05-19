@@ -2,18 +2,22 @@ package org.gfg.misc.dnamatching;
 
 import static org.junit.Assert.assertThat;
 import java.io.IOException;
-import java.net.URL;
 import static org.hamcrest.Matchers.*;
-import org.junit.Ignore;
 import org.junit.Test;
 import java.util.*;
 
 public class SubmatchIteratorTest{
-    @Test
-    public void InitSubmatchIteratorWithLargeFile() throws IOException {
-        String file1 = this.getClass().getResource("/dnamatching/fmaternal0.fa").getFile();
-        String file2 = this.getClass().getResource("/dnamatching/fpaternal0.fa").getFile();
-        SubmatchIterator it = new SubmatchIterator(file1, file2, 5);
+    @Ignore @Test
+    public void InitSubmatchIteratorWithSmallerFile() throws IOException {
+        String file1 = this.getClass().getResource("/dnamatching/shortmat.fa").getFile();
+        String file2 = this.getClass().getResource("/dnamatching/shortpat.fa").getFile();
+        SubmatchIterator it = new SubmatchIterator(file1, file2, 3);
+        int matchCount = 0;
+        while(it.hasNext()){
+            it.next();
+            matchCount++;
+        }
+        assertThat(matchCount, is(not(0)));
     }
 
     @Test

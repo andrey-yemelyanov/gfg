@@ -13,6 +13,7 @@ public class SubmatchIterator implements Iterator<Submatch> {
 
     private DnaSubsequenceHashIterator A;
     private DnaSubsequenceHashIterator B;
+    
     // maps subsequence hash to a list of offsets where this subsequence occurs
     private Dictionary<Integer, List<DnaSubsequence>> dictB;
 
