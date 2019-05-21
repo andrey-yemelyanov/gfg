@@ -48,4 +48,18 @@ public class GeometryTest{
             new Point(2, 5), new Point(8, 11)), 
             is(false));
     }
+
+    @Test
+    public void countPointsInCircleTest(){
+        Point[] points = new Point[]{
+            new Point(1, 1),
+            new Point(2, 2),
+            new Point(3, 3),
+            new Point(-1, -1),
+            new Point(4, 4)
+        };
+        Integer[] squareSum = Geometry.preprocessPoints(points);
+        assertThat(Geometry.countPointsInsideCircle(squareSum, 3), is(3));
+        assertThat(Geometry.countPointsInsideCircle(squareSum, 32), is(5));
+    }
 }

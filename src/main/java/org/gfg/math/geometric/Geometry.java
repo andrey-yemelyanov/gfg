@@ -1,5 +1,10 @@
 package org.gfg.math.geometric;
 
+import java.util.Arrays;
+
+import org.gfg.search.SearchAlgorithms;
+import org.gfg.sort.Sorting;
+
 /**
  * Utility class that implements a number of geometry-related algorithms.
  */
@@ -61,5 +66,26 @@ public class Geometry{
         return (o1 == 0 && o2 == 0 && o3 == 0 && o4 == 0 
             && xProjectionsIntersect(p1, q1, p2, q2) 
             && yProjectionsIntersect(p1, q1, p2, q2));
+    }
+
+    /**
+     * Computes how many input points lie inside a circle with a given radius.
+     * @param squareSum a preprocessed array containing sums x^2+y^2 for each point in sorted order
+     * @param circleRadius circle radius to compute for
+     * @return number of points that lie inside the circle
+     */
+    public static int countPointsInsideCircle(Integer[] squareSum, int circleRadius){
+        int floorIndex = SearchAlgorithms.floor(squareSum, circleRadius * circleRadius);
+        return floorIndex + 1;
+    }
+
+    public static Integer[] preprocessPoints(Point[] points){
+        Integer[] squareSum = new Integer[points.length];
+        for(int i = 0; i < points.length; i++){
+            Point p = points[i];
+            squareSum[i] = p.x * p.x + p.y * p.y;
+        }
+        Sorting.mergeSort(squareSum);
+        return squareSum;
     }
 }
