@@ -4,17 +4,28 @@ package org.gfg.misc.dnamatching;
  * Contains DNA subsequence along with its corresponding hash code and offset.
  */
 public class DnaSubsequence{
+    private String subsequence;
     private int hashCode;
     private int offset;
 
     /**
      * Initializes a new instance of {@code DnaSubsequence}.
+     * @param subsequence DNA subsequence
      * @param hashCode hash code
      * @param offset position in the original sequence where the subsequence occurs
      */
-    public DnaSubsequence(int hashCode, int offset){
+    public DnaSubsequence(String subsequence, int hashCode, int offset){
+        this.subsequence = subsequence;
         this.hashCode = hashCode;
         this.offset = offset;
+    }
+
+    /**
+     * Returns DNA subsequence.
+     * @return subsequence
+     */
+    public String subsequence(){
+        return subsequence;
     }
 
     /**

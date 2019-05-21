@@ -26,7 +26,7 @@ public class DnaSubsequenceHashIterator implements Iterator<DnaSubsequence> {
     @Override
     public boolean hasNext() {
         if(!subsequenceIterator.hasNext()) return false;
-        StringBuilder subsequence = subsequenceIterator.next();
+        String subsequence = subsequenceIterator.next();
         
         if(currentSubsequence == null){
             rollingHash = new RollingHash(subsequence);
@@ -34,7 +34,7 @@ public class DnaSubsequenceHashIterator implements Iterator<DnaSubsequence> {
             rollingHash.slide(subsequence.charAt(subsequence.length() - 1));
         }
 
-        currentSubsequence = new DnaSubsequence(rollingHash.currentHash(), offset++);
+        currentSubsequence = new DnaSubsequence(subsequence, rollingHash.currentHash(), offset++);
         return true;
     }
 
