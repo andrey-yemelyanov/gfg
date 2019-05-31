@@ -57,12 +57,12 @@ public class GraphSearch{
     }
 
     /**
-     * Performs topological sorting on the input graph.
-     * The graph is expected to be an Acyclic Directed Graph (DAG).
+     * Performs topological ordering on the input graph.
+     * The graph is expected to be a Directed Acyclic Graph (DAG).
      * Otherwise, an {@code IllegalArgumentException} is thrown.
      * @param graph input graph
      * @throws IllegalArgumentException if the input graph is not a DAG
-     * @return a list of graph vertices in topological ordering
+     * @return a list of graph vertices in one of many possible topological orderings
      */
     public static <V> List<V> toposort(Dictionary<V, List<V>> graph){
         if(hasCycle(graph, true)){
