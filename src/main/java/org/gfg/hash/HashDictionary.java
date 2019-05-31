@@ -138,4 +138,15 @@ public class HashDictionary<K, V> implements Dictionary<K, V>{
             throw new IllegalArgumentException(String.format("Key '%s' does not exist in the dictionary.", key));
         }
     }
+
+    @Override
+    public List<K> keys() {
+        List<K> keys = new ArrayList<>();
+        for(LinkedList<KeyValuePair> keyValuePairs : hashTable){
+            for(KeyValuePair keyValuePair : keyValuePairs){
+                keys.add(keyValuePair.key);
+            }
+        }
+        return keys;
+    }
 }

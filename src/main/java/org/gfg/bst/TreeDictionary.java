@@ -1,24 +1,30 @@
 package org.gfg.bst;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.gfg.Dictionary;
 
 /**
  * Implements {@link Dictionary} abstraction using an AVL tree.
+ * 
  * @param <K> type of keys
  * @param <V> type of values
  */
 public class TreeDictionary<K extends Comparable<K>, V> implements Dictionary<K, V> {
-    
-    private class KeyValuePair implements Comparable<KeyValuePair>{
-		@Override
-		public int compareTo(TreeDictionary<K, V>.KeyValuePair pair) {
-			return this.key.compareTo(pair.key);
+
+    private class KeyValuePair implements Comparable<KeyValuePair> {
+        @Override
+        public int compareTo(TreeDictionary<K, V>.KeyValuePair pair) {
+            return this.key.compareTo(pair.key);
         }
-        
+
         public K key;
         public V value;
-        public KeyValuePair(K key, V value){
-            this.key = key; 
+
+        public KeyValuePair(K key, V value) {
+            this.key = key;
             this.value = value;
         }
     }
@@ -30,8 +36,8 @@ public class TreeDictionary<K extends Comparable<K>, V> implements Dictionary<K,
         return tree.contains(new KeyValuePair(key, null));
     }
 
-    private void ensureKeyExists(K key){
-        if(!containsKey(key)){
+    private void ensureKeyExists(K key) {
+        if (!containsKey(key)) {
             throw new IllegalArgumentException(String.format("Key '%s' does not exist in the dictionary.", key));
         }
     }
@@ -59,5 +65,12 @@ public class TreeDictionary<K extends Comparable<K>, V> implements Dictionary<K,
     @Override
     public int size() {
         return tree.size();
+    }
+
+    @Override
+    public List<K> keys() {
+        return tree.toList().stream()
+                            .map(p -> p.key)
+                            .collect(Collectors.toList());
     }
 }

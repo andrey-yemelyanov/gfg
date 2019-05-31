@@ -2,10 +2,27 @@ package org.gfg.hash;
 
 import org.junit.Test;
 import static org.junit.Assert.assertThat;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import org.gfg.Dictionary;
 import static org.hamcrest.Matchers.*;
 
 public class HashDictionaryTest{
+    @Test
+    public void getKeys(){
+        Dictionary<Integer, String> dict = new HashDictionary<>();
+        dict.add(1, "One");
+        dict.add(2, "Two");
+        dict.add(3, "Three");
+        dict.add(4, "Four");
+        dict.add(5, "Five");
+        assertThat(dict.keys().stream()
+                              .sorted()
+                              .collect(Collectors.toList()), 
+                    is(Arrays.asList(1, 2, 3, 4, 5)));
+    }
+
     @Test
     public void testAddAndContains(){
         Dictionary<Integer, String> dict = new HashDictionary<>();

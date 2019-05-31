@@ -1,11 +1,25 @@
 package org.gfg.bst;
 
 import static org.junit.Assert.assertThat;
+
+import java.util.Arrays;
+
 import static org.hamcrest.Matchers.*;
 import org.gfg.Dictionary;
 import org.junit.Test;
 
 public class TreeDictionaryTest{
+    @Test
+    public void getKeys(){
+        Dictionary<Integer, String> dict = new TreeDictionary<>();
+        dict.add(1, "One");
+        dict.add(2, "Two");
+        dict.add(3, "Three");
+        dict.add(4, "Four");
+        dict.add(5, "Five");
+        assertThat(dict.keys(), is(Arrays.asList(1, 2, 3, 4, 5)));
+    }
+
     @Test
     public void testAddAndContains(){
         Dictionary<Integer, String> dict = new TreeDictionary<>();

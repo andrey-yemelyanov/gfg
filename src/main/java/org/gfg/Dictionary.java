@@ -1,5 +1,7 @@
 package org.gfg;
 
+import java.util.List;
+
 /**
  * Dictionary abstraction that stores a set of keys and associated values.
  * @param <K> type of keys
@@ -39,4 +41,10 @@ public interface Dictionary<K, V>{
      * @return size of this dictionary
      */
     public int size();
+
+    /**
+     * Returns a list of keys stored in this dictionary.
+     * @return list of keys
+     */
+    public List<K> keys();
 }

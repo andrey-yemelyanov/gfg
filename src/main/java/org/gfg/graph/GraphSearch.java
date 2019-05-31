@@ -14,8 +14,9 @@ public class GraphSearch{
      * @param <V> type of graph vertices
      * @param graph input graph
      * @param source source vertex
-     * @return a dictionary of distances from the source vertex to all other discovered vertices in the connected component.
-     * If a vertex is not reachable from the source vertex, it will not be present in the dist dictionary.
+     * @return <p>List<Object>.get(0) - a dictionary of distances from the source vertex to all other discovered vertices in the connected component.
+     * If a vertex is not reachable from the source vertex, it will not be present in the dist dictionary.</p>
+     * <p>List<Object>.get(1) - The routine also returns parent pointer structure which can be used to re-construct shortest paths.</p>
      */
     public static <V> List<Object> bfs(Dictionary<V, List<V>> graph, V source){
         Dictionary<V, Integer> dist = new HashDictionary<>();
@@ -53,5 +54,142 @@ public class GraphSearch{
         }
         Collections.reverse(path);
         return path;
+    }
+
+    /**
+     * Performs topological sorting on the input graph.
+     * The graph is expected to be an Acyclic Directed Graph (DAG).
+     * Otherwise, an {@code IllegalArgumentException} is thrown.
+     * @param graph input graph
+     * @throws IllegalArgumentException if the input graph is not a DAG
+     * @return a list of graph vertices in topological ordering
+     */
+    public static <V> List<V> toposort(Dictionary<V, List<V>> graph){
+        if(hasCycle(graph, true)){
+            throw new IllegalArgumentException("Input graph contains a directed cycle.");
+        } 
+        List<V> toposort = new ArrayList<>();
+        Dictionary<V, V> dfsParent = new HashDictionary<>();
+        for(V v : graph.keys()){
+            if(!dfsParent.containsKey(v)){
+                dfsParent.add(v, null);
+                dfsToposort(graph, v, dfsParent, toposort);
+            }
+        }
+        Collections.reverse(toposort);
+        return toposort;
+    }
+
+    private static <V> void dfsToposort(
+        Dictionary<V, List<V>> graph, 
+        V u, 
+        Dictionary<V, V> dfsParent, 
+        List<V> toposort){
+        for(V v : graph.get(u)){
+            if(!dfsParent.containsKey(v)){
+                dfsParent.add(v, u);
+                dfsToposort(graph, v, dfsParent, toposort);
+            }
+        }
+        toposort.add(u);
+    }
+
+    private static final int WHITE = 0;
+    private static final int GRAY = 1;
+    private static final int BLACK = 2;
+
+    /**
+     * Checks for presence of a cycle in the input graph.
+     * @param graph input graph
+     * @param isDirected indicates whether the input graph is directed or undirected
+     * @return true if the input graph contains a cycle
+     */
+    public static <V> boolean hasCycle(Dictionary<V, List<V>> graph, boolean isDirected){
+        Dictionary<V, Integer> color = new HashDictionary<>();
+        for(V v : graph.keys()){
+            color.add(v, WHITE);
+        }
+        for(V v : graph.keys()){
+            if(color.get(v) == WHITE){
+                color.add(v, GRAY);
+                if(hasCycle(graph, v, v, color, isDirected)) return true;
+            }
+        }
+        return false;
+    }
+
+    private static <V> boolean hasCycle(
+        Dictionary<V, List<V>> graph, 
+        V u, 
+        V parent, 
+        Dictionary<V, Integer> color,
+        boolean isDirected){
+        for(V v : graph.get(u)){
+            if(color.get(v) != BLACK){
+                if(color.get(v) == GRAY){
+                    if(isDirected || v != parent) return true;
+                }else{
+                    color.add(v, GRAY);
+                    if(hasCycle(graph, v, u, color, isDirected)) return true;
+                }
+            }
+        }
+        color.add(u, BLACK);
+        return false;
+    }
+
+    /**
+     * Computes connected components for a graph.
+     * @param <V> type of vertices in the graph
+     * @param graph input graph
+     * @return <p>List<Object>.get(0) - number of connected components in the input graph</p>
+     * <p>List<Object>.get(1) - dictionary mapping each vertex in the graph to its connected component id</p>
+     */
+    public static <V> List<Object> getConnectedComponents(Dictionary<V, List<V>> graph){
+        int id = 0;
+        Dictionary<V, Integer> component = new HashDictionary<>();
+        for(V v : graph.keys()){
+            if(!component.containsKey(v)){
+                component.add(v, id);
+                dfsConnectedComponent(graph, v, component, id++);
+            }
+        }
+        return Arrays.asList(id, component);
+    }
+
+    private static <V> void dfsConnectedComponent(
+        Dictionary<V, List<V>> graph, 
+        V u, 
+        Dictionary<V, Integer> component, 
+        int componentId){
+        for(V v : graph.get(u)){
+            if(!component.containsKey(v)){
+                component.add(v, componentId);
+                dfsConnectedComponent(graph, v, component, componentId);
+            }
+        }
+    }
+
+    /**
+     * Performs depth-first search in a graph from a given source vertex.
+     * @param <V> type of vertices in the graph
+     * @param graph input graph (directed or undirected)
+     * @param u initial source vertex from which DFS is started
+     * @return parent pointer structure with all reachable vertices from the given source vertex
+     */
+    public static <V> Dictionary<V, V> dfsVisit(Dictionary<V, List<V>> graph, V u){
+        Dictionary<V, V> dfsParent = new HashDictionary<>();
+        dfsParent.add(u, null);
+        dfsVisit(graph, u, dfsParent);
+        return dfsParent;
+    }
+
+    private static <V> void dfsVisit(Dictionary<V, List<V>> graph, V u, Dictionary<V, V> dfsParent){
+        for(V v : graph.get(u)){
+            if(!dfsParent.containsKey(v)){
+                dfsParent.add(v, u);
+                dfsVisit(graph, v, dfsParent);
+            }
+        }
     }
 }
