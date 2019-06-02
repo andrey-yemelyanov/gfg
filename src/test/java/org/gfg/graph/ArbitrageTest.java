@@ -11,7 +11,7 @@ public class ArbitrageTest{
         List<String> arbitrage = Arbitrage.check(
             new String[]{"USD", "EUR", "GBP", "CHF", "CAD"}, 
             new double[][]{
-                {1,     0.741, 0.657, 1.061, 1.005},
+                {    1, 0.741, 0.657, 1.061, 1.005},
                 {1.349,     1, 0.888, 1.433, 1.366},
                 {1.521, 1.126,     1, 1.614, 1.538},
                 {0.942, 0.698, 0.619,     1, 0.953},
