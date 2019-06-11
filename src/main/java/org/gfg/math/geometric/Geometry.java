@@ -1,7 +1,5 @@
 package org.gfg.math.geometric;
 
-import java.util.Arrays;
-
 import org.gfg.search.SearchAlgorithms;
 import org.gfg.sort.Sorting;
 
