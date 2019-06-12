@@ -2,6 +2,9 @@ package org.gfg.graph;
 
 import java.util.*;
 
+import org.gfg.Dictionary;
+import org.gfg.hash.HashDictionary;
+
 /**
  * Solves 2x2x2 Rubik's cube. Based on MIT's implementation available at 
  * https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/assignments/MIT6_006F11_ps6.pdf
@@ -71,9 +74,8 @@ public class RubiksCube{
     /**
      * Permutation corresponding to a counter-clockwise rotation of the front face.
      */
-    public static final int[] FRONT_FACE_ROTATED_COUNTER_CLOCKWISE = new int[]{
-
-    };
+    public static final int[] FRONT_FACE_ROTATED_COUNTER_CLOCKWISE = permutationInverse(
+        FRONT_FACE_ROTATED_CLOCKWISE);
 
     /**
      * Permutation corresponding to a clockwise rotation of the left face.
@@ -92,9 +94,8 @@ public class RubiksCube{
     /**
      * Permutation corresponding to a counter-clockwise rotation of the left face.
      */
-    public static final int[] LEFT_FACE_ROTATED_COUNTER_CLOCKWISE = new int[]{
-
-    };
+    public static final int[] LEFT_FACE_ROTATED_COUNTER_CLOCKWISE = permutationInverse(
+        LEFT_FACE_ROTATED_CLOCKWISE);
 
     /**
      * Permutation corresponding to a clockwise rotation of the upper face.
@@ -113,14 +114,13 @@ public class RubiksCube{
     /**
      * Permutation corresponding to a counter-clockwise rotation of the upper face.
      */
-    public static final int[] UPPER_FACE_ROTATED_COUNTER_CLOCKWISE = new int[]{
-
-    };
+    public static final int[] UPPER_FACE_ROTATED_COUNTER_CLOCKWISE = permutationInverse(
+        UPPER_FACE_ROTATED_CLOCKWISE);
 
     /**
      * Contains a list of permutations representing 6 possible moves from a given cube configuration.
      */
-    public static final int[][] MOVES = new int[][]{
+    private static final int[][] MOVES = new int[][]{
         FRONT_FACE_ROTATED_CLOCKWISE,
         FRONT_FACE_ROTATED_COUNTER_CLOCKWISE,
         LEFT_FACE_ROTATED_CLOCKWISE,
@@ -129,17 +129,7 @@ public class RubiksCube{
         UPPER_FACE_ROTATED_COUNTER_CLOCKWISE
     };
 
-    /**
-     * Performs a single move on the cube that takes it from one configuration to another.
-     * @param move move to perform
-     * @param currentConfiguration current cube configuration
-     * @return a new cube configuration after applying the move
-     */
-    public static int[] performMove(int[] move, int[] currentConfiguration){
-        return applyPermutation(move, currentConfiguration);
-    }
-
-    private static int[] applyPermutation(int[] permutation, int[] array){
+    static int[] applyPermutation(int[] permutation, int[] array){
         int[] newArray = new int[array.length];
         for(int i = 0; i < permutation.length; i++){
             newArray[i] = array[permutation[i]];
@@ -147,18 +137,80 @@ public class RubiksCube{
         return newArray;
     }
 
-    /**
-     * Using BFS finds the shortest path from a given start position to a solved position.
-     * @param start starting cube configuration
-     * @return a list of moves that solves the cube from {@code start} position to solved position
-     */
-    public static List<int[]> solve(int[] start){
-        return solve(start, SOLVED);
+    private static int[] permutationInverse(int[] permutation){
+        int[] inverse = new int[permutation.length];
+        for(int i = 0; i < permutation.length; i++){
+            inverse[permutation[i]] = i;
+        }
+        return inverse;
     }
 
-    static List<int[]> solve(int[] start, int[] end){
-        List<int[]> moves = new ArrayList<>();
-        moves.add(SOLVED);
-        return moves;
+    /**
+     * Using a 2-way BFS, finds the shortest path of moves from {@code start} position to {@code end} position.
+     * @param start start position
+     * @param end end position
+     * @return a list of moves from {@code start} position to {@code end} position 
+     */
+    public static List<int[]> solve(int[] start, int[] end){
+        Queue<int[]> q1 = new LinkedList<>();
+        Queue<int[]> q2 = new LinkedList<>();
+        Dictionary<Integer, int[]> parent1 = new HashDictionary<>();
+        Dictionary<Integer, int[]> parent2 = new HashDictionary<>();
+        q1.add(start);
+        q2.add(end);
+        parent1.add(hash(start), null);
+        parent2.add(hash(end), null);
+        
+        while(!q1.isEmpty() && !q2.isEmpty()){
+            
+            // explore from start
+            int[] config1 = q1.remove();
+            for(int[] move : MOVES){
+                int[] nextConfig1 = applyPermutation(move, config1);
+                if(!parent1.containsKey(hash(nextConfig1))){
+                    parent1.add(hash(nextConfig1), config1);
+                    q1.add(nextConfig1);
+                }
+            }
+
+            // explore from end
+            int[] config2 = q2.remove();
+
+            if(parent1.containsKey(hash(config2))){
+                List<int[]> pathFromStart = getPath(config2, parent1);
+                List<int[]> pathFromEnd = getPath(parent2.get(hash(config2)), parent2);
+                Collections.reverse(pathFromEnd);
+                List<int[]> moves = new ArrayList<>();
+                moves.addAll(pathFromStart);
+                moves.addAll(pathFromEnd);
+                moves.remove(0);
+                return moves;
+            }
+
+            for(int[] move : MOVES){
+                int[] nextConfig2 = applyPermutation(move, config2);
+                if(!parent2.containsKey(hash(nextConfig2))){
+                    parent2.add(hash(nextConfig2), config2);
+                    q2.add(nextConfig2);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private static List<int[]> getPath(int[] config, Dictionary<Integer, int[]> parent){
+        List<int[]> path = new ArrayList<>();
+        int[] current = config;
+        while(current != null){
+            path.add(current);
+            current = parent.get(hash(current));
+        }
+        Collections.reverse(path);
+        return path;
+    }
+
+    private static int hash(int[] config){
+        return Arrays.hashCode(config);
     }
 }
