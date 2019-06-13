@@ -48,4 +48,13 @@ public class RoadNetworkTest{
         RoadNetwork network = RoadNetwork.fromFile(nodeFilePath, linkFilePath);
         network.getNode("New York");
     }
+
+    @Test
+    public void adjacentNodes() throws IOException {
+        String nodeFilePath = this.getClass().getResource("/dijkstra/nhpn.nod").getFile();
+        String linkFilePath = this.getClass().getResource("/dijkstra/nhpn.lnk").getFile();
+        RoadNetwork network = RoadNetwork.fromFile(nodeFilePath, linkFilePath);
+        Node node = network.getNode("NYHARRISON MANHATT");
+        assertThat(network.adjacentNodes(node).size(), is(not(0)));
+    }
 }
