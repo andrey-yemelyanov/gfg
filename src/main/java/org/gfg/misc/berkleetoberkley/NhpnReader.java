@@ -55,8 +55,8 @@ public class NhpnReader{
             Integer.parseInt(line.substring(23, 33).trim()), 
             Integer.parseInt(line.substring(33, 43).trim()), 
             Integer.parseInt(line.substring(43, 53).trim()), 
-            Integer.parseInt(line.substring(88, 90).trim()), 
-            line.substring(53, 88).trim());
+            line.substring(53, 55).trim(), 
+            line.substring(55, 88).trim());
     }
 
     private static Link toLink(String line){

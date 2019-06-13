@@ -4,7 +4,7 @@ public class Node{
     private int nodeId;
     private int longitude;
     private int latitude;
-    private int state;
+    private String state;
     private String description;
 
     public String getDescription() {
@@ -23,11 +23,11 @@ public class Node{
         this.description = description;
     }
 
-    public int getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(String state) {
         this.state = state;
     }
 
@@ -47,11 +47,18 @@ public class Node{
         this.longitude = longitude;
     }
 
-    public Node(int nodeId, int longitude, int latitude, int state, String description) {
+    public Node(int nodeId, int longitude, int latitude, String state, String description) {
         this.setNodeId(nodeId);
         this.setLongitude(longitude);
         this.setLatitude(latitude);
         this.setState(state);
         this.setDescription(description);
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(!(obj instanceof Node)) return false;
+        Node other = (Node) obj;
+        return this.nodeId == other.nodeId;
     }
 }

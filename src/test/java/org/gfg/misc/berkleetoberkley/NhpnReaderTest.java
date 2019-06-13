@@ -17,15 +17,29 @@ public class NhpnReaderTest{
         assertThat(node.getNodeId(), is(28000897));
         assertThat(node.getLongitude(), is(-90254463));
         assertThat(node.getLatitude(), is(32304264));
-        assertThat(node.getState(), is(28));
-        assertThat(node.getDescription(), is("MSJACKSON VAN WINK"));
+        assertThat(node.getState(), is("MS"));
+        assertThat(node.getDescription(), is("JACKSON VAN WINK"));
 
         node = nodes.get(26192);
         assertThat(node.getNodeId(), is(18001302));
         assertThat(node.getLongitude(), is(-87414131));
         assertThat(node.getLatitude(), is(39472687));
-        assertThat(node.getState(), is(18));
-        assertThat(node.getDescription(), is("INTERRE HAUTE C-N"));
+        assertThat(node.getState(), is("IN"));
+        assertThat(node.getDescription(), is("TERRE HAUTE C-N"));
+
+        node = nodes.get(14032);
+        assertThat(node.getNodeId(), is(9000748));
+        assertThat(node.getLongitude(), is(-72979561));
+        assertThat(node.getLatitude(), is(41336983));
+        assertThat(node.getState(), is("CT"));
+        assertThat(node.getDescription(), is("NEW HAVEN NW"));
+
+        node = nodes.get(65385);
+        assertThat(node.getNodeId(), is(42000986));
+        assertThat(node.getLongitude(), is(-78992416));
+        assertThat(node.getLatitude(), is(40944500));
+        assertThat(node.getState(), is("PA"));
+        assertThat(node.getDescription(), is("PUNXSUTAWNEY W"));
     }
 
     @Test
