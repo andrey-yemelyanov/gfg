@@ -61,4 +61,25 @@ public class Node{
         Node other = (Node) obj;
         return this.nodeId == other.nodeId;
     }
+
+    @Override
+    public int hashCode(){
+        return nodeId;
+    }
+
+    /**
+     * Takes location name in format [CITY STATE] and transforms it into node name format [STATECITY]
+     * @param str input name
+     * @return node name in format [STATECITY]
+     * @throws Exception if parsing fails
+     */
+    public static String toNodeName(String str) throws Exception {
+        try{
+            String state = str.substring(str.length() - 2).trim();
+            String city = str.substring(0, str.length() - 2).trim();
+            return state + city;
+        }catch(Exception ex){
+            throw new Exception(String.format("Unable to parse node name from '%s'"));
+        }
+    }
 }

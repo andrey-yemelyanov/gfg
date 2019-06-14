@@ -57,4 +57,12 @@ public class RoadNetworkTest{
         Node node = network.getNode("NYHARRISON MANHATT");
         assertThat(network.adjacentNodes(node).size(), is(not(0)));
     }
+
+    @Test
+    public void nodeNameParse() throws Exception {
+        assertThat(Node.toNodeName("NEW HAVEN YALE B CT"), is("CTNEW HAVEN YALE B"));
+        assertThat(Node.toNodeName("ROYAL LAKES IL"), is("ILROYAL LAKES"));
+        assertThat(Node.toNodeName("GREEN BROOK W NJ"), is("NJGREEN BROOK W"));
+        assertThat(Node.toNodeName("CAMBRIDGE MA"), is("MACAMBRIDGE"));
+    }
 }
