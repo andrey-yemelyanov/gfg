@@ -21,6 +21,14 @@ public class RoadNetwork {
     private Dictionary<String, Node> nodeNameMap;
 
     /**
+     * Returns all nodes that are part of this road network.
+     * @return node ids for each node in the road network
+     */
+    public List<Integer> getNodes(){
+        return network.keys();
+    }
+
+    /**
      * Returns a {@code Node} object associated with the given node name.
      * @param nodeName node name in format |STATE|CITY| e.g. OKCHESTER or NYHARRISON PURCHAS
      * @return {@code Node} object associated with the given node name
@@ -37,10 +45,10 @@ public class RoadNetwork {
     /**
      * Returns nodes that are adjacent to the given node.
      * @param node node whose neighbors are to be computed
-     * @return adjacent nodes
+     * @return node ids corresponding to adjacent nodes
      */
-    public List<Road> adjacentNodes(Node node){
-        return network.get(node.getNodeId());
+    public List<Road> adjacentNodes(int nodeId){
+        return network.get(nodeId);
     }
 
     /**

@@ -27,10 +27,23 @@ public class Road{
     }
 
     /**
-     * Returns length of this road measured using great-circle distance taking Earth curvature into account.
+     * Returns length of this road in radians measured using great-circle distance taking Earth curvature into account.
      * @return road length
      */
     public double getLength(){
-        return 0.0;
+        /*
+            MIT's calculation:
+            A = node1.latitude * pi / 10**6 / 180
+            B = node1.longitude * pi / 10**6 / 180
+            C = node2.latitude * pi / 10**6 / 180
+            D = node2.longitude * pi / 10**6 / 180
+            return acos(sin(A) * sin(C) + cos(A) * cos(C) * cos(B - D))
+        */
+        double rad = Math.PI / 1000000 / 180;
+        double A = fromNode.getLatitude() * Math.PI / 1000000 / 180;
+        double B = fromNode.getLongitude() * Math.PI / 1000000 / 180;
+        double C = toNode.getLatitude() * Math.PI / 1000000 / 180;
+        double D = toNode.getLongitude() * Math.PI / 1000000 / 180;
+        return Math.acos(Math.sin(A) * Math.sin(C) + Math.cos(A) * Math.cos(C) * Math.cos(B - D));
     }
 }

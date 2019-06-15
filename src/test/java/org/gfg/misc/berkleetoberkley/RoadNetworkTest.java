@@ -12,6 +12,8 @@ public class RoadNetworkTest{
         String linkFilePath = this.getClass().getResource("/dijkstra/nhpn.lnk").getFile();
         RoadNetwork network = RoadNetwork.fromFile(nodeFilePath, linkFilePath);
 
+        assertThat(network.getNodes().size(), is(90415));
+
         Node node = network.getNode("NYHARRISON MANHATT");
         assertThat(node, is(not(nullValue())));
         assertThat(node.getNodeId(), is(36004404));
@@ -55,7 +57,7 @@ public class RoadNetworkTest{
         String linkFilePath = this.getClass().getResource("/dijkstra/nhpn.lnk").getFile();
         RoadNetwork network = RoadNetwork.fromFile(nodeFilePath, linkFilePath);
         Node node = network.getNode("NYHARRISON MANHATT");
-        assertThat(network.adjacentNodes(node).size(), is(not(0)));
+        assertThat(network.adjacentNodes(node.getNodeId()).size(), is(not(0)));
     }
 
     @Test
