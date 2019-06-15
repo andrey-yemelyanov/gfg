@@ -3,26 +3,26 @@ package org.gfg.misc.berkleetoberkley;
 public class NodeIdDistancePair {
 
     private double distance;
-    private int nodeId;
+    private Node node;
 
     public double getDistance() {
         return distance;
     }
 
-    public int getNodeId() {
-        return nodeId;
+    public Node getNode() {
+        return node;
     }
 
-    public void setNodeId(int nodeId) {
-        this.nodeId = nodeId;
+    public void setNode(Node node) {
+        this.node = node;
     }
 
     public void setDistance(double distance) {
         this.distance = distance;
     }
 
-    public NodeIdDistancePair(int nodeId, double distance){
-        setNodeId(nodeId);
+    public NodeIdDistancePair(Node node, double distance){
+        setNode(node);
         setDistance(distance);
     }
 }

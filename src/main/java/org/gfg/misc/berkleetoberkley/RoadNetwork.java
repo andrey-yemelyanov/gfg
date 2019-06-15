@@ -12,13 +12,16 @@ public class RoadNetwork {
 
     private RoadNetwork(
         Dictionary<Integer, List<Road>> network, 
-        Dictionary<String, Node> nodeNameMap){
+        Dictionary<String, Node> nodeNameMap,
+        Dictionary<Integer, Node> nodeIdMap){
             this.network = network;
             this.nodeNameMap = nodeNameMap;
+            this.nodeIdMap = nodeIdMap;
         }
 
     private Dictionary<Integer, List<Road>> network;
     private Dictionary<String, Node> nodeNameMap;
+    private Dictionary<Integer, Node> nodeIdMap;
 
     /**
      * Returns all nodes that are part of this road network.
@@ -26,6 +29,19 @@ public class RoadNetwork {
      */
     public List<Integer> getNodes(){
         return network.keys();
+    }
+
+    /**
+     * Returns {@code Node} object associated with the given node id.
+     * @param nodeId node id
+     * @return {@code Node} object
+     */
+    public Node getNode(Integer nodeId){
+        if(!nodeIdMap.containsKey(nodeId)){
+            throw new IllegalArgumentException(
+                String.format("Node with id '%d' not found.", nodeId));
+        }
+        return nodeIdMap.get(nodeId);
     }
 
     /**
@@ -61,7 +77,18 @@ public class RoadNetwork {
     public static RoadNetwork fromFile(String nodeFilePath, String linkFilePath) throws IOException {
         List<Node> nodes = NhpnReader.readNodes(nodeFilePath);
         List<Link> links = NhpnReader.readLinks(linkFilePath);
-        return new RoadNetwork(buildNetwork(nodes, links), buildNodeNameMap(nodes));
+        return new RoadNetwork(
+            buildNetwork(nodes, links), 
+            buildNodeNameMap(nodes),
+            buildNodeIdMap(nodes));
+    }
+
+    private static Dictionary<Integer, Node> buildNodeIdMap(List<Node> nodes){
+        Dictionary<Integer, Node> nodeIdMap = new HashDictionary<>();
+        for(Node node : nodes){
+            nodeIdMap.add(node.getNodeId(), node);
+        }
+        return nodeIdMap;
     }
 
     private static Dictionary<String, Node> buildNodeNameMap(List<Node> nodes){

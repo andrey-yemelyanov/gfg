@@ -1,9 +1,6 @@
 package org.gfg.misc.berkleetoberkley;
 
-import java.util.HashSet;
-import java.util.PriorityQueue;
-import java.util.Set;
-
+import java.util.*;
 import org.gfg.Dictionary;
 import org.gfg.hash.HashDictionary;
 
@@ -28,7 +25,8 @@ public class PathFinder{
      * @return shortest path length and all nodes along this path
      * @throws PathFinderException if an error occurs during execution e.g. a node with a given name not found
      */
-    public ShortestPathResult findShortestPath(String source, String destination) throws PathFinderException {
+    public ShortestPathResult findShortestPath(
+        String source, String destination) throws PathFinderException {
         try{
             final double INF = Double.MAX_VALUE;
             Node sourceNode = roadNetwork.getNode(Node.toNodeName(source));
@@ -40,25 +38,27 @@ public class PathFinder{
             Dictionary<Integer, Integer> parent = new HashDictionary<>();
             for(int node : roadNetwork.getNodes()){
                 dist.add(node, INF);
-                parent.add(node, null);
             }
             dist.add(sourceNode.getNodeId(), 0.0);
+            parent.add(sourceNode.getNodeId(), null);
 
             // initialize min priority queue of nodes to visit in the order of increasing distance
             PriorityQueue<NodeIdDistancePair> pq = new PriorityQueue<>(
                 (n1, n2) -> Double.compare(n1.getDistance(), n2.getDistance()));
             for(int node : roadNetwork.getNodes()){
-                pq.add(new NodeIdDistancePair(node, dist.get(node)));
+                pq.add(new NodeIdDistancePair(roadNetwork.getNode(node), dist.get(node)));
             }
 
             while(!pq.isEmpty()){
                 NodeIdDistancePair node = pq.remove();
-                int u = node.getNodeId();
+                int u = node.getNode().getNodeId();
                 // terminate if we have reached the destination
                 if(u == destinationNode.getNodeId()){
                     break;
                 }
+                
                 visited.add(u);
+
                 // relax all unvisited neighbors of 'u'
                 for(Road edge : roadNetwork.adjacentNodes(u)){
                     int v = edge.getToNode().getNodeId();
@@ -67,15 +67,32 @@ public class PathFinder{
                         if(dist.get(v) > node.getDistance() + edge.getLength()){
                             dist.add(v, node.getDistance() + edge.getLength());
                             parent.add(v, u);
-                            pq.add(new NodeIdDistancePair(v, dist.get(v)));
+                            pq.add(new NodeIdDistancePair(edge.getToNode(), dist.get(v)));
                         }
                     }
                 }
             }
 
-            return new ShortestPathResult(dist.get(destinationNode.getNodeId()));
+            return new ShortestPathResult(
+                dist.get(destinationNode.getNodeId()),
+                getShortestPath(sourceNode.getNodeId(), destinationNode.getNodeId(), parent));
+
         }catch(Exception ex){
             throw new PathFinderException(ex.getMessage());
         }
+    }
+
+    private List<Node> getShortestPath(
+        Integer source, 
+        Integer destination,
+        Dictionary<Integer, Integer> parent){
+        List<Node> path = new ArrayList<>();
+        Integer nodeId = destination;
+        while(nodeId != null){
+            path.add(roadNetwork.getNode(nodeId));
+            nodeId = parent.get(nodeId);
+        }
+        Collections.reverse(path);
+        return path;
     }
 }
