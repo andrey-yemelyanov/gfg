@@ -40,10 +40,10 @@ public class Road{
             return acos(sin(A) * sin(C) + cos(A) * cos(C) * cos(B - D))
         */
         double rad = Math.PI / 1000000 / 180;
-        double A = fromNode.getLatitude() * Math.PI / 1000000 / 180;
-        double B = fromNode.getLongitude() * Math.PI / 1000000 / 180;
-        double C = toNode.getLatitude() * Math.PI / 1000000 / 180;
-        double D = toNode.getLongitude() * Math.PI / 1000000 / 180;
+        double A = fromNode.getLatitude() * rad;
+        double B = fromNode.getLongitude() * rad;
+        double C = toNode.getLatitude() * rad;
+        double D = toNode.getLongitude() * rad;
         return Math.acos(Math.sin(A) * Math.sin(C) + Math.cos(A) * Math.cos(C) * Math.cos(B - D));
     }
 }
