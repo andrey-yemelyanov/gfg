@@ -1,6 +1,7 @@
 package org.gfg.misc.berkleetoberkley;
 
 import java.util.List;
+import java.util.Locale;
 
 public class ShortestPathResult {
     private double length;
@@ -29,7 +30,7 @@ public class ShortestPathResult {
                      "<tessellate>1</tessellate>\n" +
                      "<coordinates>\n";
         for(Node node : shortestPath){
-            kml += String.format(
+            kml += String.format(Locale.US,
                 "%f,%f\n", 
                 node.getLongitude() / 1000000.0, 
                 node.getLatitude() / 1000000.0);

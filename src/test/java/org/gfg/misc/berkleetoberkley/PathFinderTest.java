@@ -1,11 +1,10 @@
 package org.gfg.misc.berkleetoberkley;
 
 import static org.junit.Assert.assertThat;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import java.util.Locale;
 import static org.hamcrest.Matchers.*;
 import org.junit.Test;
 
@@ -20,7 +19,7 @@ public class PathFinderTest {
     }
 
     private String toString(double d) {
-        return String.format("%.4f", d);
+        return String.format(Locale.US, "%.4f", d);
     }
 
     @Test
@@ -42,9 +41,21 @@ public class PathFinderTest {
     }
 
     @Test
-    public void pasadenaCaBellevueWa() throws PathFinderException {
-        assertThat(toString(pathFinder.findShortestPath("PASADENA CBD  W CA", "BELLEVUE N WA").getLength()),
-                is("0.2727"));
+    public void pasadenaCaBellevueWa() throws PathFinderException, FileNotFoundException {
+        ShortestPathResult sp = pathFinder.findShortestPath("PASADENA CBD  W CA", "BELLEVUE N WA");
+        assertThat(toString(sp.getLength()), is("0.2727"));
+
+        String kml = sp.toKml();
+        assertThat(kml, is(not(nullValue())));
+        writeToFile(kml, "PASADENA_BELLEVUE.kml");
+    }
+
+    @Test
+    public void sacramentoNashville() throws PathFinderException, FileNotFoundException {
+        ShortestPathResult sp = pathFinder.findShortestPath("SACRAMENTO NW CA", "NASHVILLE C-N TN");
+        String kml = sp.toKml();
+        assertThat(kml, is(not(nullValue())));
+        writeToFile(kml, "SACRAMENTO_NASHVILLE.kml");
     }
 
     @Test
