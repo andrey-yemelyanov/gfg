@@ -13,4 +13,10 @@ public class MathTest{
         assertThat(MathUtils.factorize(1), is(Arrays.asList(1)));
         assertThat(MathUtils.factorize(13), is(Arrays.asList(1, 13)));
     }
+
+    @Test
+    public void estimatePI(){
+        double pi = MathUtils.estimatePI(10000000);
+        System.out.println(pi);
+    }
 }

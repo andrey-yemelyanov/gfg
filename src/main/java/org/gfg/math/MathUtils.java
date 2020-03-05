@@ -25,4 +25,19 @@ public class MathUtils{
         factors.addAll(larger);
         return factors;
     }
+
+    public static double estimatePI(int nIterations){
+        Random rand = new Random();
+        int nPoints = 0; int nPointsInCircle = 0;
+        for(int i = 0; i < nIterations; i++){
+            // generate random x in interval [-0.5, 0.5]
+            double x = rand.nextDouble() - 0.5;
+            // generate random y in interval [-0.5, 0.5]
+            double y = rand.nextDouble() - 0.5;
+            // check if the point is inside the circle
+            if(x * x + y * y <= 0.5 * 0.5) nPointsInCircle++;
+            nPoints++;
+        }
+        return 4 * ((double) nPointsInCircle / nPoints);
+    }
 }
