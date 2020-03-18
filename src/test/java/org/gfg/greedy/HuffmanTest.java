@@ -44,4 +44,19 @@ public class HuffmanTest {
         assertThat(result.bitLength, is(676799));
         assertThat(Huffman.decode(result.encodedText, result.tree, result.bitLength), is(text));
     }
+
+    @Test
+    public void compressWikiFile() throws FileNotFoundException {
+        URL url = this.getClass().getResource("/wiki.html");
+        Scanner s = new Scanner(new File(url.getFile()));
+        StringBuilder sb = new StringBuilder();
+        while(s.hasNext()){
+            sb.append(s.nextLine());
+            if(s.hasNext()) sb.append("\n");
+        }
+        String text = sb.toString();
+        Huffman.Result result = Huffman.encode(text);
+        System.out.printf("Compressed file size is %.2f%% of the original\n", (double) result.bitLength / text.length() * 8);
+        assertThat(Huffman.decode(result.encodedText, result.tree, result.bitLength), is(text));
+    }
 }

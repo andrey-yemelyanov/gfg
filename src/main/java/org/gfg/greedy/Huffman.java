@@ -85,10 +85,15 @@ public class Huffman{
 
     // pads bit string with zeros so that the total bit length is a multiple of 8
     private static String pad(String bitString){
-        int paddingLen = 8 - (bitString.length() % 8);
+        int paddingLen = 0;
+        if((bitString.length() % 8) != 0){
+            paddingLen = 8 - (bitString.length() % 8);
+        }
+
         for(int i = 0; i < paddingLen; i++){
             bitString += "0";
         }
+
         return bitString;
     }
 
@@ -163,15 +168,19 @@ public class Huffman{
             }
         }
 
-        // process the last byte
-        byte lastByte = encodedText[encodedText.length - 1];
-        for(int i = 0; i < (bitLen % 8); i++){
-            int bitValue = lastByte & (1 << (7 - i));
-            if(bitValue == 0) current = current.left;
-            else current = current.right;
-            if(current.c != null){
-                decoded.append(current.c);
-                current = tree;
+        if(encodedText.length >= 1){
+            // process the last byte
+            byte lastByte = encodedText[encodedText.length - 1];
+            int nBits = 8;
+            if((bitLen % 8) != 0) nBits = bitLen % 8;
+            for(int i = 0; i < nBits; i++){
+                int bitValue = lastByte & (1 << (7 - i));
+                if(bitValue == 0) current = current.left;
+                else current = current.right;
+                if(current.c != null){
+                    decoded.append(current.c);
+                    current = tree;
+                }
             }
         }
         
