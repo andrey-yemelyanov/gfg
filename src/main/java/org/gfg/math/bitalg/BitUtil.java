@@ -110,4 +110,29 @@ public class BitUtil{
         if(carry != 0) sb.append(carry);
         return sb.reverse().toString();
     }
+
+    /**
+     * Converts a binary string to its representation as a byte array.
+     * @param bitString binary string
+     * @return byte array
+     */
+    public static byte[] toByteArray(String bitString){
+        final int BYTE_LEN = 8;
+        byte[] bytes = new byte[(int) Math.ceil((double) bitString.length() / BYTE_LEN)];
+        for(int i = 0; i < bytes.length; i++){
+            bytes[i] = toByte(bitString.substring(
+                i * BYTE_LEN, 
+                Math.min(BYTE_LEN * (i  + 1), bitString.length())));
+        }
+        return bytes;
+    }
+
+    private static byte toByte(String byteString){
+        byte b = 0;
+        for(char c : byteString.toCharArray()){
+            b <<= 1;
+            b |= (c - '0');
+        }
+        return b;
+    }
 }

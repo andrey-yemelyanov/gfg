@@ -7,6 +7,15 @@ import static org.gfg.math.bitalg.BitUtil.*;
 
 public class BitUtilTest{
     @Test
+    public void bitStringToByteArray(){
+        assertThat(toByteArray("1"), is(new byte[]{1}));
+        assertThat(toByteArray("0"), is(new byte[]{0}));
+        assertThat(toByteArray("11111111"), is(new byte[]{ (byte) 0xFF }));
+        assertThat(toByteArray("111111111"), is(new byte[]{(byte) 0xFF, 0x1}));
+        assertThat(toByteArray("000000000000000000000000000000"), is(new byte[]{0,0,0,0}));
+    }
+
+    @Test
     public void oppositeSignsTest(){
         assertThat(oppositeSigns(0, 0), is(false));
         assertThat(oppositeSigns(1, 2), is(false));
