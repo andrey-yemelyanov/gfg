@@ -7,6 +7,18 @@ import java.util.*;
 
 public class BinaryTreeTest {
     @Test
+    public void sumOfRightLeaves(){
+        Node root = new Node(10, 
+            new Node(12, 
+                new Node(25, null, null), 
+                new Node(30, null, null)), 
+            new Node(15, 
+                new Node(36, null, null), 
+                null));
+        assertThat(BinaryTreeUtil.sumOfRightLeaves(root), is(30));
+    }
+
+    @Test
     public void coonvertToDll(){
         Node root = new Node(1, null, null);
         Node list = BinaryTreeUtil.toDll(root);

@@ -10,6 +10,10 @@ public class Node {
         this.right = right;
     }
 
+    public boolean isLeave(){
+        return left == null && right == null;
+    }
+
     @Override
     public String toString(){
         return Integer.toString(val);

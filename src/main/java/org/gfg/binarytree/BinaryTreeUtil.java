@@ -2,6 +2,15 @@ package org.gfg.binarytree;
 
 public class BinaryTreeUtil {
 
+    public static int sumOfRightLeaves(Node root){
+        return sumOfRightLeaves(root, true);
+    }
+    private static int sumOfRightLeaves(Node root, boolean rightChild){
+        if(root == null) return 0;
+        if(rightChild && root.isLeave()) return root.val;
+        return sumOfRightLeaves(root.left, false) + sumOfRightLeaves(root.right, true);
+    }
+
     public static Node toDll(Node root){
         if(root == null) return null;
         
